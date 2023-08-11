@@ -17,6 +17,7 @@ import { AddressModule } from './modules/address/address.module';
 import { TreatmentRecordModule } from './modules/treatment-record/treatment-record.module';
 import { LoggingInterceptor } from './interceptor/logging/logging.interceptor';
 import { LogEntity } from './interceptor/logging/logging.entity';
+import { RoleModule } from './modules/role/role.module';
 @Module({
     imports: [
         ConfigModule.forRoot({}),
@@ -41,6 +42,7 @@ import { LogEntity } from './interceptor/logging/logging.entity';
         EstablishmentModule,
         AddressModule,
         TreatmentRecordModule,
+        RoleModule,
     ],
     controllers: [AppController],
     providers: [
