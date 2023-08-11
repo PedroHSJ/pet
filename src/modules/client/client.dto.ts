@@ -1,5 +1,5 @@
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
-import { RoleEnum } from 'src/utils/role.enum';
+import { Role } from 'src/utils/role.enum';
 import { RoleDTO } from '../role/role.dto';
 import { PetDTO } from '../pet/pet.dto';
 
@@ -25,7 +25,7 @@ export class ClientDTO {
     })
     password: string;
     role: RoleDTO = {
-        name: RoleEnum.CLIENT,
+        name: Role.CLIENT,
     };
     // @ApiPropertyOptional({
     //     description: 'Pets of the client',

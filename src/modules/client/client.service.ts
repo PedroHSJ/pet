@@ -5,7 +5,7 @@ import { ClientDTO, ClientParamDTO } from './client.dto';
 import { ClientEntity } from './client.entity';
 import { hash } from 'bcrypt';
 import { RoleDTO } from '../role/role.dto';
-import { RoleEnum } from 'src/utils/role.enum';
+import { Role } from 'src/utils/role.enum';
 import { RoleEntity } from '../role/role.entity';
 import { Sort } from 'src/utils/sort.type';
 import { AddressEntity } from '../address/address.entity';
@@ -24,7 +24,7 @@ export class ClientService {
     async create(client: ClientDTO): Promise<{ id: string }> {
         client.password = await hash(client.password, 10);
         const roleEntity = await this.roleRepository.findOneBy({
-            name: RoleEnum.CLIENT,
+            name: Role.CLIENT,
         });
         if (roleEntity == null) throw new BadRequestException('Role not found');
         client.role = roleEntity;

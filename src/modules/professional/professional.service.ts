@@ -4,7 +4,7 @@ import { ProfessionalEntity } from './professional.entity';
 import { Repository } from 'typeorm';
 import { ProfessionalDTO, ProfessionalParamsDTO } from './professional.dto';
 import { hash } from 'bcrypt';
-import { RoleEnum } from 'src/utils/role.enum';
+import { Role } from 'src/utils/role.enum';
 import { RoleEntity } from '../role/role.entity';
 import { Sort } from 'src/utils/sort.type';
 
@@ -23,7 +23,7 @@ export class ProfessionalService {
         professional.email = professional.email.toLowerCase();
         professional.phone = professional.phone.replace(/\D/g, '');
         const roleEntity = await this.roleRepository.findOneBy({
-            name: RoleEnum.VETERINARIAN,
+            name: Role.VETERINARIAN,
         });
         if (roleEntity == null) throw new Error('Role not found');
         const professionalEntity =
