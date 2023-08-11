@@ -8,7 +8,8 @@ import {
     PrimaryGeneratedColumn,
     UpdateDateColumn,
 } from 'typeorm';
-import { AnamnesisEntity } from './anamnesis.entity';
+import { AnamnesisEntity } from './anamnese/anamnesis.entity';
+import { ScheduleEntity } from '../schedule/schedule.entity';
 
 @Entity('treatment_records')
 export class TreatmentRecordEntity implements Base {
@@ -18,6 +19,10 @@ export class TreatmentRecordEntity implements Base {
     createdAt: Date;
     @UpdateDateColumn({ name: 'updated_at' })
     updatedAt: Date;
+
+    @OneToOne(() => ScheduleEntity, (schedule) => schedule.treatmentRecord)
+    @JoinColumn({ name: 'schedule_id' })
+    schedule: ScheduleEntity;
 
     @Column({
         type: 'varchar',

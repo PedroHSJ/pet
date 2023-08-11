@@ -1,0 +1,10 @@
+export enum LocomotorSystem {
+    NORMAL = 'NORMAL',
+    PAIN = 'PAIN',
+    STIFFNESS = 'STIFFNESS',
+    SWELLING = 'SWELLING',
+    DIFFICULTY = 'DIFFICULTY',
+    POSTURAL_CHANGES = 'POSTURAL_CHANGES',
+    FRACTURES = 'FRACTURES',
+    OTHER = 'OTHER',
+}

@@ -5,12 +5,14 @@ import {
     Entity,
     JoinColumn,
     ManyToOne,
+    OneToOne,
     PrimaryGeneratedColumn,
     UpdateDateColumn,
 } from 'typeorm';
 import { EstablishmentEntity } from '../establishment/establishment.entity';
 import { ProfessionalEntity } from '../professional/professional.entity';
 import { ClientEntity } from '../client/client.entity';
+import { TreatmentRecordEntity } from '../treatment-record/treatment-record.entity';
 
 @Entity('schedules')
 export class ScheduleEntity implements Base {
@@ -49,4 +51,10 @@ export class ScheduleEntity implements Base {
         default: 0,
     })
     cancellationStatus: number;
+
+    @OneToOne(
+        () => TreatmentRecordEntity,
+        (treatmentRecord) => treatmentRecord.schedule,
+    )
+    treatmentRecord: TreatmentRecordEntity;
 }
