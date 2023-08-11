@@ -26,6 +26,18 @@
 
 [Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
 
+## Env file
+
+```bash
+# .env
+SECRET=FNAFNJK_as)D-SNAJDSA
+DB_HOST=localhost
+DB_PORT=5432
+DB_NAME=pet
+DB_USER=postgres
+DB_PASSWORD=postgres
+```
+
 ## Installation
 
 ```bash
@@ -64,9 +76,9 @@ Nest is an MIT-licensed open source project. It can grow thanks to the sponsors 
 
 ## Stay in touch
 
-- Author - [Kamil Myśliwiec](https://kamilmysliwiec.com)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
+-   Author - [Kamil Myśliwiec](https://kamilmysliwiec.com)
+-   Website - [https://nestjs.com](https://nestjs.com/)
+-   Twitter - [@nestframework](https://twitter.com/nestframework)
 
 ## License
 
