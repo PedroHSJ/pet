@@ -33,7 +33,6 @@ import { RoleModule } from './modules/role/role.module';
         }),
         TypeOrmModule.forFeature([LogEntity]),
         UserModule,
-        AuthModule,
         BreedModule,
         ClientModule,
         PetModule,
