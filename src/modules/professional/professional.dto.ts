@@ -1,4 +1,4 @@
-import { ApiProperty } from '@nestjs/swagger';
+import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 
 export class ProfessionalDTO {
     @ApiProperty({
@@ -24,6 +24,31 @@ export class ProfessionalDTO {
     })
     crmv: string;
     @ApiProperty({
+        description: 'Phone of the professional',
+        minLength: 2,
+        maxLength: 255,
+    })
+    phone?: string;
+}
+
+export class ProfessionalParamsDTO {
+    @ApiPropertyOptional({
+        description: 'Name of the professional',
+        minLength: 2,
+        maxLength: 255,
+    })
+    name?: string;
+    @ApiPropertyOptional({
+        description: 'Email of the professional',
+    })
+    email?: string;
+    @ApiPropertyOptional({
+        description: 'CRMV of the professional',
+        minLength: 2,
+        maxLength: 255,
+    })
+    crmv?: string;
+    @ApiPropertyOptional({
         description: 'Phone of the professional',
         minLength: 2,
         maxLength: 255,

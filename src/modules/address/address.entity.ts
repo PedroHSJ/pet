@@ -25,8 +25,8 @@ export class AddressEntity implements Base {
     street: string;
     @Column({ type: 'varchar', length: 10, nullable: false })
     number: string;
-    @Column({ type: 'varchar', length: 255, nullable: false })
-    complement: string;
+    @Column({ type: 'varchar', length: 255, nullable: true })
+    complement?: string;
     @Column({ type: 'varchar', length: 255, nullable: false })
     neighborhood: string;
     @Column({ type: 'varchar', length: 255, nullable: false })

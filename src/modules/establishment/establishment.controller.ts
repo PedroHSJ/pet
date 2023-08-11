@@ -4,7 +4,7 @@ import { ApiResponseInterface } from 'src/interfaces/ApiResponse';
 import { EstablishmentEntity } from './establishment.entity';
 import { Sort } from 'src/utils/sort.type';
 import { ApiQuery, ApiTags } from '@nestjs/swagger';
-import { EstablishmentDTO } from './establishment.dto';
+import { EstablishmentDTO, EstablishmentParamsDTO } from './establishment.dto';
 
 @ApiTags('Establishment')
 @Controller('establishment')
@@ -19,11 +19,13 @@ export class EstablishmentController {
         @Query('skip') skip: number,
         @Query('take') take: number,
         @Query('sort') sort: Sort,
+        @Query() params: EstablishmentParamsDTO,
     ): Promise<ApiResponseInterface<EstablishmentEntity>> {
         const establishments = await this.establishmentService.findAll(
             skip,
             take,
             sort,
+            params,
         );
         return {
             items: establishments,

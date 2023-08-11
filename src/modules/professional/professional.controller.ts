@@ -4,7 +4,7 @@ import { ApiResponseInterface } from 'src/interfaces/ApiResponse';
 import { ProfessionalEntity } from './professional.entity';
 import { ApiQuery, ApiTags } from '@nestjs/swagger';
 import { Sort } from 'src/utils/sort.type';
-import { ProfessionalDTO } from './professional.dto';
+import { ProfessionalDTO, ProfessionalParamsDTO } from './professional.dto';
 
 @ApiTags('Professional')
 @Controller('professional')
@@ -19,11 +19,13 @@ export class ProfessionalController {
         @Query('take') take: number = 10,
         @Query('skip') skip: number = 1,
         @Query('sort') sort: Sort = 'ASC',
+        @Query() params: ProfessionalParamsDTO,
     ): Promise<ApiResponseInterface<ProfessionalEntity>> {
         const professionals = await this.professionalService.findAll(
-            take,
             skip,
+            take,
             sort,
+            params,
         );
         return {
             items: professionals,

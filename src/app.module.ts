@@ -2,7 +2,7 @@ import { Module } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { APP_FILTER } from '@nestjs/core';
+import { APP_FILTER, APP_INTERCEPTOR } from '@nestjs/core';
 import { ErrorInterceptor } from './interceptor/error.interceptor';
 import { ConfigModule } from '@nestjs/config';
 import { AuthModule } from './modules/auth/auth.module';
@@ -15,6 +15,8 @@ import { ScheduleModule } from './modules/schedule/schedule.module';
 import { EstablishmentModule } from './modules/establishment/establishment.module';
 import { AddressModule } from './modules/address/address.module';
 import { TreatmentRecordModule } from './modules/treatment-record/treatment-record.module';
+import { LoggingInterceptor } from './interceptor/logging/logging.interceptor';
+import { LogEntity } from './interceptor/logging/logging.entity';
 @Module({
     imports: [
         ConfigModule.forRoot({}),
@@ -28,6 +30,7 @@ import { TreatmentRecordModule } from './modules/treatment-record/treatment-reco
             entities: [__dirname + '/**/*.entity{.ts,.js}'],
             synchronize: true,
         }),
+        TypeOrmModule.forFeature([LogEntity]),
         UserModule,
         AuthModule,
         BreedModule,
@@ -45,6 +48,10 @@ import { TreatmentRecordModule } from './modules/treatment-record/treatment-reco
         {
             provide: APP_FILTER,
             useClass: ErrorInterceptor,
+        },
+        {
+            provide: APP_INTERCEPTOR,
+            useClass: LoggingInterceptor,
         },
     ],
 })

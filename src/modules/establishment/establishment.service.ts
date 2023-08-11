@@ -3,7 +3,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { EstablishmentEntity } from './establishment.entity';
 import { Repository } from 'typeorm';
 import { Sort } from 'src/utils/sort.type';
-import { EstablishmentDTO } from './establishment.dto';
+import { EstablishmentDTO, EstablishmentParamsDTO } from './establishment.dto';
 import { AddressEntity } from '../address/address.entity';
 
 @Injectable()
@@ -19,12 +19,50 @@ export class EstablishmentService {
         skip: number,
         take: number,
         sort: Sort,
+        establishment: EstablishmentParamsDTO,
     ): Promise<EstablishmentEntity[]> {
-        return await this.establishmentRepository
+        const query = await this.establishmentRepository
             .createQueryBuilder('establishment')
             .leftJoinAndSelect('establishment.address', 'address')
+            .take(take)
+            .orderBy('establishment.name', sort)
+            .where('1 = 1');
 
-            .getMany();
+        if (establishment.name)
+            query.where('establishment.name ILIKE :name', {
+                name: `%${establishment.name}%`,
+            });
+        if (establishment.cnpj)
+            query.andWhere('establishment.cnpj ILIKE :cnpj', {
+                cnpj: `%${establishment.cnpj}%`,
+            });
+
+        return query.getMany();
+    }
+
+    async findByParams(
+        skip: number,
+        take: number,
+        sort: Sort,
+        establishment: EstablishmentParamsDTO,
+    ): Promise<EstablishmentEntity[]> {
+        const query = this.establishmentRepository
+            .createQueryBuilder('establishment')
+            .leftJoinAndSelect('establishment.address', 'address')
+            .take(take)
+            .orderBy('establishment.name', sort)
+            .where('1 = 1');
+
+        if (establishment.name)
+            query.where('establishment.name ILIKE :name', {
+                name: `%${establishment.name}%`,
+            });
+        if (establishment.cnpj)
+            query.andWhere('establishment.cnpj ILIKE :cnpj', {
+                cnpj: `%${establishment.cnpj}%`,
+            });
+
+        return await query.getMany();
     }
 
     async create(establishment: EstablishmentDTO): Promise<{ id: string }> {

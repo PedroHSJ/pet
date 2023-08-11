@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { ProfessionalEntity } from './professional.entity';
 import { Repository } from 'typeorm';
-import { ProfessionalDTO } from './professional.dto';
+import { ProfessionalDTO, ProfessionalParamsDTO } from './professional.dto';
 import { hash } from 'bcrypt';
 import { RoleEnum } from 'src/utils/role.enum';
 import { RoleEntity } from '../role/role.entity';
@@ -20,6 +20,8 @@ export class ProfessionalService {
     async create(professional: ProfessionalDTO): Promise<{ id: string }> {
         professional.password = await hash(professional.password, 10);
         professional.name = professional.name.toUpperCase();
+        professional.email = professional.email.toLowerCase();
+        professional.phone = professional.phone.replace(/\D/g, '');
         const roleEntity = await this.roleRepository.findOneBy({
             name: RoleEnum.VETERINARIAN,
         });
@@ -37,13 +39,33 @@ export class ProfessionalService {
         skip: number,
         take: number,
         sort: Sort,
+        professional: ProfessionalParamsDTO,
     ): Promise<ProfessionalEntity[]> {
-        return await this.professionalRepository
+        const query = await this.professionalRepository
             .createQueryBuilder('professional')
             .leftJoin('professional.role', 'role')
             .addSelect('role.name')
-            .take(take)
-            .orderBy('professional.name', sort)
-            .getMany();
+            .take(take);
+        if (professional.name)
+            query.andWhere('professional.name ILIKE :name', {
+                name: `%${professional.name}%`,
+            });
+
+        if (professional.email)
+            query.andWhere('professional.email ILIKE :email', {
+                email: `%${professional.email}%`,
+            });
+
+        if (professional.phone)
+            query.andWhere('professional.phone ILIKE :phone', {
+                phone: `%${professional.phone}%`,
+            });
+
+        if (professional.crmv)
+            query.andWhere('professional.crmv ILIKE :crmv', {
+                crmv: `%${professional.crmv}%`,
+            });
+
+        return await query.getMany();
     }
 }

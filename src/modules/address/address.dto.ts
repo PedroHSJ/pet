@@ -1,4 +1,4 @@
-import { ApiProperty } from '@nestjs/swagger';
+import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 
 export class AddressDTO {
     @ApiProperty({
@@ -11,11 +11,11 @@ export class AddressDTO {
         example: '0',
     })
     number: string;
-    @ApiProperty({
+    @ApiPropertyOptional({
         description: 'Complement',
         example: 'Apto 101',
     })
-    complement: string;
+    complement?: string;
     @ApiProperty({
         description: 'Neighborhood',
         example: 'Vila do Chaves',
@@ -33,7 +33,9 @@ export class AddressDTO {
     state: string;
     @ApiProperty({
         description: 'Postal Code',
-        example: '00000-000',
+        example: '00000000',
+        minLength: 8,
+        maxLength: 8,
     })
     postalCode: string;
 }

@@ -34,8 +34,7 @@ export const AddressSchema = Yup.object().shape({
         .required(NUMBER_REQUIRED),
     complement: Yup.string()
         .min(2, COMPLEMENT_MIN_LENGTH)
-        .max(255, COMPLEMENT_MAX_LENGTH)
-        .required(COMPLEMENT_REQUIRED),
+        .max(255, COMPLEMENT_MAX_LENGTH),
     neighborhood: Yup.string()
         .min(2, NEIGHBORHOOD_MIN_LENGTH)
         .max(255, NEIGHBORHOOD_MAX_LENGTH)
