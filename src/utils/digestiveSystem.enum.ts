@@ -1,0 +1,7 @@
+export enum DigestiveSystem {
+    VOMITING = 'VOMITING',
+    DIARRHEA = 'DIARRHEA',
+    CONSTIPATION = 'CONSTIPATION',
+    REGURGITATION = 'REGURGITATION',
+    OTHER = 'OTHER',
+}
