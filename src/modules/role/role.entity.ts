@@ -1,4 +1,3 @@
-import { RoleEnum } from 'src/utils/role.enum';
 import { Base } from 'src/interfaces/Base';
 import {
     Column,
@@ -12,6 +11,7 @@ import {
 import { UserEntity } from '../user/user.entity';
 import { ClientEntity } from '../client/client.entity';
 import { ProfessionalEntity } from '../professional/professional.entity';
+import { Role } from 'src/utils/role.enum';
 
 @Entity('roles')
 export class RoleEntity implements Base {
@@ -22,8 +22,8 @@ export class RoleEntity implements Base {
     @UpdateDateColumn()
     updatedAt: Date;
 
-    @Column({ type: 'enum', enum: RoleEnum, unique: true })
-    name: RoleEnum;
+    @Column({ type: 'enum', enum: Role, unique: true })
+    name: Role;
 
     @OneToMany(() => UserEntity, (user) => user.role)
     users: UserEntity[];
