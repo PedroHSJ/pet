@@ -16,9 +16,9 @@ export class EstablishmentController {
     @ApiQuery({ name: 'skip', required: false })
     @ApiQuery({ name: 'sort', required: false })
     async findAll(
-        @Query('skip') skip: number,
-        @Query('take') take: number,
-        @Query('sort') sort: Sort,
+        @Query('skip') skip: number = 0,
+        @Query('take') take: number = 10,
+        @Query('sort') sort: Sort = 'ASC',
         @Query() params: EstablishmentParamsDTO,
     ): Promise<ApiResponseInterface<EstablishmentEntity>> {
         const establishments = await this.establishmentService.findAll(

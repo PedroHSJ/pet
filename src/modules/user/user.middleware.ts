@@ -1,5 +1,5 @@
 import { NestMiddleware } from '@nestjs/common';
-import { NextFunction } from 'express';
+import { NextFunction, Request, Response } from 'express';
 import { UserSchema } from './user.schema';
 
 export class UserMiddleware implements NestMiddleware {
