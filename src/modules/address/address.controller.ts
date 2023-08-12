@@ -20,10 +20,14 @@ export class AddressController {
         @Query('take') take: number = 10,
         @Query('sort') sort: Sort = 'ASC',
     ): Promise<ApiResponseInterface<AddressEntity>> {
-        const addresses = await this.addressService.findAll(skip, take, sort);
+        const { items, totalCount } = await this.addressService.findAll(
+            skip,
+            take,
+            sort,
+        );
         return {
-            items: addresses,
-            totalCount: addresses.length,
+            items,
+            totalCount,
             skip,
             take,
             sort,

@@ -21,15 +21,15 @@ export class ProfessionalController {
         @Query('sort') sort: Sort = 'ASC',
         @Query() params: ProfessionalParamsDTO,
     ): Promise<ApiResponseInterface<ProfessionalEntity>> {
-        const professionals = await this.professionalService.findAll(
+        const { items, totalCount } = await this.professionalService.findAll(
             skip,
             take,
             sort,
             params,
         );
         return {
-            items: professionals,
-            totalCount: professionals.length,
+            items,
+            totalCount,
             skip,
             take,
             sort,

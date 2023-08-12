@@ -20,7 +20,7 @@ export class EstablishmentService {
         take: number,
         sort: Sort,
         establishment: EstablishmentParamsDTO,
-    ): Promise<EstablishmentEntity[]> {
+    ): Promise<{ items: EstablishmentEntity[]; totalCount: number }> {
         const query = await this.establishmentRepository
             .createQueryBuilder('establishment')
             .leftJoinAndSelect('establishment.address', 'address')
@@ -37,7 +37,9 @@ export class EstablishmentService {
                 cnpj: `%${establishment.cnpj}%`,
             });
 
-        return query.getMany();
+        const items = await query.getMany();
+        const totalCount = await query.getCount();
+        return { items, totalCount };
     }
 
     async findByParams(

@@ -21,15 +21,15 @@ export class EstablishmentController {
         @Query('sort') sort: Sort = 'ASC',
         @Query() params: EstablishmentParamsDTO,
     ): Promise<ApiResponseInterface<EstablishmentEntity>> {
-        const establishments = await this.establishmentService.findAll(
+        const { items, totalCount } = await this.establishmentService.findAll(
             skip,
             take,
             sort,
             params,
         );
         return {
-            items: establishments,
-            totalCount: establishments.length,
+            items,
+            totalCount,
             skip,
             take,
             sort,

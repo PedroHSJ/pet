@@ -40,7 +40,7 @@ export class ProfessionalService {
         take: number,
         sort: Sort,
         professional: ProfessionalParamsDTO,
-    ): Promise<ProfessionalEntity[]> {
+    ): Promise<{ items: ProfessionalEntity[]; totalCount: number }> {
         const query = await this.professionalRepository
             .createQueryBuilder('professional')
             .leftJoin('professional.role', 'role')
@@ -65,7 +65,8 @@ export class ProfessionalService {
             query.andWhere('professional.crmv ILIKE :crmv', {
                 crmv: `%${professional.crmv}%`,
             });
-
-        return await query.getMany();
+        const items = await query.getMany();
+        const totalCount = await query.getCount();
+        return { items, totalCount };
     }
 }

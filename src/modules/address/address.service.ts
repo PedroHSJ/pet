@@ -16,13 +16,16 @@ export class AddressService {
         skip: number,
         take: number,
         sort: Sort,
-    ): Promise<AddressEntity[]> {
-        return await this.addressRepository.find({
+    ): Promise<{ items: AddressEntity[]; totalCount: number }> {
+        const items = await this.addressRepository.find({
             take,
             order: {
                 city: sort,
             },
         });
+
+        const totalCount = await this.addressRepository.count();
+        return { items, totalCount };
     }
 
     async create(address: AddressDTO): Promise<{ id: string }> {
