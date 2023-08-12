@@ -3,7 +3,7 @@ import {
     NAME_MIN_LENGTH,
     REQUIRED,
     WEIGHT_MIN,
-} from 'src/constants';
+} from '../../constants';
 import * as Yup from 'yup';
 
 export const PetSchema = Yup.object().shape({

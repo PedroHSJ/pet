@@ -1,4 +1,8 @@
-import { NAME_MAX_LENGTH, NAME_MIN_LENGTH, NAME_REQUIRED } from 'src/constants';
+import {
+    NAME_MAX_LENGTH,
+    NAME_MIN_LENGTH,
+    NAME_REQUIRED,
+} from '../../constants';
 import * as Yup from 'yup';
 
 export const BreedSchema = Yup.object().shape({

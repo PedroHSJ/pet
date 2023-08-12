@@ -1,4 +1,4 @@
-import { REQUIRED } from 'src/constants';
+import { REQUIRED } from '../../constants';
 import * as Yup from 'yup';
 import { DigestiveSystem } from './anamnese/enums/digestiveSystem.enum';
 import { UrogenitalSystem } from './anamnese/enums/urogenitalSystem.enum';

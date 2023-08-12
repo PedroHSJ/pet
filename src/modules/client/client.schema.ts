@@ -7,7 +7,7 @@ import {
     PASSWORD_MAX_LENGTH,
     PASSWORD_MIN_LENGTH,
     PASSWORD_REQUIRED,
-} from 'src/constants';
+} from '../../constants';
 import * as Yup from 'yup';
 
 export const ClientSchema = Yup.object().shape({

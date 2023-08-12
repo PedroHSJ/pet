@@ -6,7 +6,7 @@ import {
     PASSWORD_MAX_LENGTH,
     PASSWORD_MIN_LENGTH,
     PASSWORD_REQUIRED,
-} from 'src/constants';
+} from '../../constants';
 
 export const ProfessinalSchema = Yup.object().shape({
     name: Yup.string().required(NAME_REQUIRED),
