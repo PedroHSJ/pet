@@ -6,7 +6,7 @@ import { ProfessionalDTO, ProfessionalParamsDTO } from './professional.dto';
 import { hash } from 'bcrypt';
 import { RoleEntity } from '../role/role.entity';
 import { Sort } from 'src/utils/sort.type';
-import { Role } from 'src/enums/role';
+import { Role } from '../../enums/role';
 
 @Injectable()
 export class ProfessionalService {

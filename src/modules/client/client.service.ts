@@ -7,7 +7,7 @@ import { hash } from 'bcrypt';
 import { RoleEntity } from '../role/role.entity';
 import { Sort } from 'src/utils/sort.type';
 import { AddressEntity } from '../address/address.entity';
-import { Role } from 'src/enums/role';
+import { Role } from '../../enums/role';
 
 @Injectable()
 export class ClientService {
