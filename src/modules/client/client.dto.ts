@@ -1,7 +1,6 @@
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
-import { Role } from 'src/utils/role.enum';
 import { RoleDTO } from '../role/role.dto';
-import { PetDTO } from '../pet/pet.dto';
+import { Role } from 'src/enums/role';
 
 interface Pet {
     id: string;

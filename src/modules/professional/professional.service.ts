@@ -4,9 +4,9 @@ import { ProfessionalEntity } from './professional.entity';
 import { Repository } from 'typeorm';
 import { ProfessionalDTO, ProfessionalParamsDTO } from './professional.dto';
 import { hash } from 'bcrypt';
-import { Role } from 'src/utils/role.enum';
 import { RoleEntity } from '../role/role.entity';
 import { Sort } from 'src/utils/sort.type';
+import { Role } from 'src/enums/role';
 
 @Injectable()
 export class ProfessionalService {

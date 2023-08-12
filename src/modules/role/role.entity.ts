@@ -11,7 +11,7 @@ import {
 import { UserEntity } from '../user/user.entity';
 import { ClientEntity } from '../client/client.entity';
 import { ProfessionalEntity } from '../professional/professional.entity';
-import { Role } from 'src/utils/role.enum';
+import { Role } from 'src/enums/role';
 
 @Entity('roles')
 export class RoleEntity implements Base {

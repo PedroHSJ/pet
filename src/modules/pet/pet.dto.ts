@@ -1,8 +1,8 @@
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 import { BreedDTO } from '../breed/breed.dto';
 import { UUID } from 'typeorm/driver/mongodb/bson.typings';
-import { Specie } from 'src/utils/specie.enum';
-import { Gender } from 'src/utils/gender.enum';
+import { Specie } from 'src/enums/specie';
+import { Gender } from 'src/enums/gender';
 
 export class PetDTO {
     @ApiProperty({

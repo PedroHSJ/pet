@@ -10,8 +10,8 @@ import {
 } from 'typeorm';
 import { BreedEntity } from '../breed/breed.entity';
 import { ClientEntity } from '../client/client.entity';
-import { Specie } from 'src/utils/specie.enum';
-import { Gender } from 'src/utils/gender.enum';
+import { Specie } from 'src/enums/specie';
+import { Gender } from 'src/enums/gender';
 
 @Entity('pets')
 export class PetEntity implements Base {

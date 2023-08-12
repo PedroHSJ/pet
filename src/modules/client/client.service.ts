@@ -4,11 +4,10 @@ import { Repository } from 'typeorm';
 import { ClientDTO, ClientParamDTO } from './client.dto';
 import { ClientEntity } from './client.entity';
 import { hash } from 'bcrypt';
-import { RoleDTO } from '../role/role.dto';
-import { Role } from 'src/utils/role.enum';
 import { RoleEntity } from '../role/role.entity';
 import { Sort } from 'src/utils/sort.type';
 import { AddressEntity } from '../address/address.entity';
+import { Role } from 'src/enums/role';
 
 @Injectable()
 export class ClientService {
