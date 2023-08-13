@@ -33,4 +33,5 @@ export class EstablishmentEntity implements Base {
 
     @OneToMany(() => ScheduleEntity, (schedule) => schedule.establishment)
     schedules: ScheduleEntity[];
+    establishmentEntity: Promise<AddressEntity>;
 }
