@@ -68,17 +68,20 @@ export class EstablishmentService {
     }
 
     async create(establishment: EstablishmentDTO): Promise<{ id: string }> {
-        const addressExist = await this.addressRepository.findOne({
-            where: { id: establishment.addressId },
-        });
-        if (!addressExist) throw new BadRequestException('Address not found');
-        const addressEntity = this.addressRepository.create(addressExist);
+        // const addressExist = await this.addressRepository.findOne({
+        //     where: { id: establishment.address },
+        // });
+        // if (!addressExist) throw new BadRequestException('Address not found');
+
+        const addressEntity = await this.addressRepository.save(
+            this.addressRepository.create(establishment.address),
+        );
+        console.log(addressEntity);
 
         const establishmentEntity = this.establishmentRepository.create({
             ...establishment,
             address: addressEntity,
         });
-
         const newEstablishment = await this.establishmentRepository.save(
             establishmentEntity,
         );

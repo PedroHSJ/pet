@@ -1,4 +1,5 @@
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
+import { AddressDTO } from '../address/address.dto';
 
 export class EstablishmentDTO {
     @ApiProperty({
@@ -14,10 +15,15 @@ export class EstablishmentDTO {
     })
     cnpj: string;
 
+    // @ApiProperty({
+    //     description: 'Address of the establishment',
+    // })
+    // addressId: string;
+
     @ApiProperty({
         description: 'Address of the establishment',
     })
-    addressId: string;
+    address: AddressDTO;
 }
 
 export class EstablishmentParamsDTO {
