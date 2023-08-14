@@ -12,4 +12,11 @@ export class AuthDTO {
         description: 'Password of the user',
     })
     password: string;
+
+    @ApiProperty({
+        type: String,
+        description: 'Scope of the user',
+        example: 'USER',
+    })
+    scope: 'CLIENT' | 'USER' | 'PROFESSIONAL';
 }

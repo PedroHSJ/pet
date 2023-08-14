@@ -2,7 +2,7 @@ import { Controller, Get, Query, Post, Body } from '@nestjs/common';
 import { ProfessionalService } from './professional.service';
 import { ApiResponseInterface } from 'src/interfaces/ApiResponse';
 import { ProfessionalEntity } from './professional.entity';
-import { ApiQuery, ApiTags } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiQuery, ApiTags } from '@nestjs/swagger';
 import { Sort } from 'src/utils/sort.type';
 import { ProfessionalDTO, ProfessionalParamsDTO } from './professional.dto';
 
@@ -12,6 +12,7 @@ export class ProfessionalController {
     constructor(private readonly professionalService: ProfessionalService) {}
 
     @Get()
+    @ApiBearerAuth()
     @ApiQuery({ name: 'take', required: false })
     @ApiQuery({ name: 'skip', required: false })
     @ApiQuery({ name: 'sort', required: false })

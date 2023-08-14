@@ -1,0 +1,5 @@
+export enum NaturalFood {
+    RAW_WHITH_BONES = 'RAW_WHITH_BONES',
+    RAW_WHITHOUT_BONES = 'RAW_WHITHOUT_BONES',
+    COOKED = 'COOKED',
+}

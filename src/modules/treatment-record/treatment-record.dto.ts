@@ -1,5 +1,7 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { AnamnesisDTO } from './anamnese/dto/anamnesis.dto';
+import { FoodDTO } from './food/dto/food.dto';
+import { MeasurementDTO } from './measurement/dto/measurement.dto';
 
 export class TreatementRecordDTO {
     @ApiProperty({
@@ -22,4 +24,16 @@ export class TreatementRecordDTO {
         nullable: false,
     })
     anamnesis: AnamnesisDTO;
+
+    @ApiProperty({
+        type: FoodDTO,
+        nullable: false,
+    })
+    food: FoodDTO;
+
+    @ApiProperty({
+        type: MeasurementDTO,
+        nullable: false,
+    })
+    measurement: MeasurementDTO;
 }

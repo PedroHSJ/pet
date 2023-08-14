@@ -13,6 +13,13 @@ export class AuthService {
     constructor(private readonly userService: UserService) {}
 
     async login(auth: AuthDTO): Promise<{ token: string }> {
+        switch (auth.scope) {
+            case 'USER':
+                return this.userLogin(auth);
+        }
+    }
+
+    async userLogin(auth: AuthDTO): Promise<{ token: string }> {
         const { email, password } = auth;
         if (!email || !password) {
             throw new BadRequestException('Missing email or password');

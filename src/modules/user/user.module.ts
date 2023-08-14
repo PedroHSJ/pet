@@ -5,6 +5,7 @@ import { UserEntity } from './user.entity';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { UserMiddleware } from './user.middleware';
 import { RoleEntity } from '../role/role.entity';
+import { APP_GUARD } from '@nestjs/core';
 
 @Module({
     imports: [TypeOrmModule.forFeature([UserEntity, RoleEntity])],

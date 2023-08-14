@@ -2,7 +2,7 @@ import { Module } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { APP_FILTER, APP_INTERCEPTOR } from '@nestjs/core';
+import { APP_FILTER, APP_GUARD, APP_INTERCEPTOR } from '@nestjs/core';
 import { ErrorInterceptor } from './interceptor/error.interceptor';
 import { ConfigModule } from '@nestjs/config';
 import { BreedModule } from './modules/breed/breed.module';
@@ -17,6 +17,9 @@ import { TreatmentRecordModule } from './modules/treatment-record/treatment-reco
 import { LoggingInterceptor } from './interceptor/logging/logging.interceptor';
 import { LogEntity } from './interceptor/logging/logging.entity';
 import { RoleModule } from './modules/role/role.module';
+import { AuthModule } from './modules/auth/auth.module';
+import { JwtModule, JwtService } from '@nestjs/jwt';
+import { AuthGuard } from './modules/auth/auth.guard';
 @Module({
     imports: [
         ConfigModule.forRoot({}),
@@ -41,10 +44,12 @@ import { RoleModule } from './modules/role/role.module';
         AddressModule,
         TreatmentRecordModule,
         RoleModule,
+        AuthModule,
     ],
     controllers: [AppController],
     providers: [
         AppService,
+        JwtService,
         {
             provide: APP_FILTER,
             useClass: ErrorInterceptor,
@@ -52,6 +57,10 @@ import { RoleModule } from './modules/role/role.module';
         {
             provide: APP_INTERCEPTOR,
             useClass: LoggingInterceptor,
+        },
+        {
+            provide: APP_GUARD,
+            useClass: AuthGuard,
         },
     ],
 })
