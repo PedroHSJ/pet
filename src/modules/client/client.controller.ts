@@ -1,5 +1,5 @@
 import { Body, Controller, Get, Param, Post, Put, Query } from '@nestjs/common';
-import { ApiTags, ApiParam, ApiQuery } from '@nestjs/swagger';
+import { ApiTags, ApiParam, ApiQuery, ApiBearerAuth } from '@nestjs/swagger';
 import { ClientService } from './client.service';
 import { ClientDTO, ClientParamDTO } from './client.dto';
 import { ApiResponseInterface } from 'src/interfaces/ApiResponse';
@@ -18,6 +18,7 @@ export class ClientController {
         return await this.clientService.create(client);
     }
     @Put(':id')
+    @ApiBearerAuth()
     @ApiParam({ name: 'id', type: String })
     async update(
         @Param('id') id: string,
@@ -27,6 +28,7 @@ export class ClientController {
     }
 
     @Get()
+    @ApiBearerAuth()
     @ApiQuery({ name: 'take', required: false })
     @ApiQuery({ name: 'skip', required: false })
     @ApiQuery({ name: 'sort', required: false })
@@ -45,6 +47,7 @@ export class ClientController {
         };
     }
 
+    @ApiBearerAuth()
     @ApiQuery({ name: 'take', required: false })
     @ApiQuery({ name: 'skip', required: false })
     @ApiQuery({ name: 'sort', required: false })

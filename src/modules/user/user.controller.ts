@@ -14,13 +14,14 @@ import { ApiResponseInterface } from 'src/interfaces/ApiResponse';
 import { ApiResponse, ApiTags, ApiParam, ApiQuery } from '@nestjs/swagger';
 import { Sort } from 'src/utils/sort.type';
 import { Public } from 'src/decorators/public.decorators';
-
+import { ApiBearerAuth } from '@nestjs/swagger';
 @ApiTags('User')
 @Controller('user')
 export class UserController {
     constructor(private userService: UserService) {}
 
     @Get()
+    @ApiBearerAuth()
     @ApiQuery({ name: 'take', required: false })
     @ApiQuery({ name: 'skip', required: false })
     @ApiQuery({ name: 'sort', required: false })
@@ -38,6 +39,7 @@ export class UserController {
     }
 
     @Get(':id')
+    @ApiBearerAuth()
     @ApiParam({ name: 'id', type: String })
     @ApiResponse({
         status: 200,

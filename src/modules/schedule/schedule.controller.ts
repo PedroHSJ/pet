@@ -6,18 +6,20 @@ import { Sort } from 'src/utils/sort.type';
 import { ApiResponseInterface } from 'src/interfaces/ApiResponse';
 import { ScheduleEntity } from './schedule.entity';
 import { finished } from 'stream';
-
+import { ApiBearerAuth } from '@nestjs/swagger';
 @ApiTags('Schedule')
 @Controller('schedule')
 export class ScheduleController {
     constructor(private readonly scheduleService: ScheduleService) {}
 
     @Post()
+    @ApiBearerAuth()
     async create(@Body() schedule: ScheduleDto): Promise<{ id: string }> {
         return await this.scheduleService.create(schedule);
     }
 
     @Get()
+    @ApiBearerAuth()
     @ApiQuery({ name: 'take', required: false })
     @ApiQuery({ name: 'skip', required: false })
     @ApiQuery({ name: 'sort', required: false })
@@ -37,6 +39,7 @@ export class ScheduleController {
     }
 
     @Put(':id')
+    @ApiBearerAuth()
     @ApiParam({ name: 'id', type: String, required: true })
     @ApiQuery({ name: 'cancellationStatus', type: Boolean, required: true })
     async update(

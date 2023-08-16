@@ -38,6 +38,7 @@ export class ProfessionalController {
     }
 
     @Post()
+    @ApiBearerAuth()
     async create(
         @Body() professional: ProfessionalDTO,
     ): Promise<{ id: string }> {

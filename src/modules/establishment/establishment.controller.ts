@@ -3,7 +3,7 @@ import { EstablishmentService } from './establishment.service';
 import { ApiResponseInterface } from 'src/interfaces/ApiResponse';
 import { EstablishmentEntity } from './establishment.entity';
 import { Sort } from 'src/utils/sort.type';
-import { ApiQuery, ApiTags } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiQuery, ApiTags } from '@nestjs/swagger';
 import { EstablishmentDTO, EstablishmentParamsDTO } from './establishment.dto';
 
 @ApiTags('Establishment')
@@ -12,6 +12,7 @@ export class EstablishmentController {
     constructor(private establishmentService: EstablishmentService) {}
 
     @Get()
+    @ApiBearerAuth()
     @ApiQuery({ name: 'take', required: false })
     @ApiQuery({ name: 'skip', required: false })
     @ApiQuery({ name: 'sort', required: false })
@@ -37,6 +38,7 @@ export class EstablishmentController {
     }
 
     @Post()
+    @ApiBearerAuth()
     async create(
         @Body() establishment: EstablishmentDTO,
     ): Promise<{ id: string }> {

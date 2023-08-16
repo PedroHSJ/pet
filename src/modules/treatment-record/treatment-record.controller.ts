@@ -1,7 +1,7 @@
 import { Body, Controller, Get, Post, Query } from '@nestjs/common';
 import { TreatmentRecordService } from './treatment-record.service';
 import { TreatementRecordDTO } from './treatment-record.dto';
-import { ApiQuery, ApiTags } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiQuery, ApiTags } from '@nestjs/swagger';
 import { TreatmentRecordEntity } from './treatment-record.entity';
 import { Sort } from 'src/utils/sort.type';
 import { ApiResponseInterface } from 'src/interfaces/ApiResponse';
@@ -14,6 +14,7 @@ export class TreatmentRecordController {
     ) {}
 
     @Post()
+    @ApiBearerAuth()
     async create(
         @Body() treatmentRecord: TreatementRecordDTO,
     ): Promise<{ id: string }> {
@@ -24,6 +25,7 @@ export class TreatmentRecordController {
     }
 
     @Get()
+    @ApiBearerAuth()
     @ApiQuery({ name: 'take', required: false })
     @ApiQuery({ name: 'skip', required: false })
     @ApiQuery({ name: 'sort', required: false })

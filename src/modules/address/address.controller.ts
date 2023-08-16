@@ -3,7 +3,7 @@ import { AddressService } from './address.service';
 import { Sort } from 'src/utils/sort.type';
 import { ApiResponseInterface } from 'src/interfaces/ApiResponse';
 import { AddressEntity } from './address.entity';
-import { ApiQuery, ApiTags } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiQuery, ApiTags } from '@nestjs/swagger';
 import { AddressDTO } from './address.dto';
 
 @ApiTags('Address')
@@ -12,6 +12,7 @@ export class AddressController {
     constructor(private readonly addressService: AddressService) {}
 
     @Get()
+    @ApiBearerAuth()
     @ApiQuery({ name: 'take', required: false })
     @ApiQuery({ name: 'skip', required: false })
     @ApiQuery({ name: 'sort', required: false })
@@ -35,6 +36,7 @@ export class AddressController {
     }
 
     @Post()
+    @ApiBearerAuth()
     async create(@Body() address: AddressDTO): Promise<{ id: string }> {
         return await this.addressService.create(address);
     }

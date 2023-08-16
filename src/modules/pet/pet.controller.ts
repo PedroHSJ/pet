@@ -1,5 +1,5 @@
 import { Body, Controller, Get, Post, Query } from '@nestjs/common';
-import { ApiTags, ApiQuery } from '@nestjs/swagger';
+import { ApiTags, ApiQuery, ApiBearerAuth } from '@nestjs/swagger';
 import { PetService } from './pet.service';
 import { PetDTO, PetParamsDTO } from './pet.dto';
 import { ApiResponseInterface } from 'src/interfaces/ApiResponse';
@@ -12,11 +12,13 @@ export class PetController {
     constructor(private readonly petService: PetService) {}
 
     @Post()
+    @ApiBearerAuth()
     async create(@Body() pet: PetDTO): Promise<{ id: string }> {
         return await this.petService.create(pet);
     }
 
     @Get(':id')
+    @ApiBearerAuth()
     async findById(id: string): Promise<ApiResponseInterface<PetEntity>> {
         const pet = await this.petService.findById(id);
         const response: ApiResponseInterface<PetEntity> = {
@@ -27,6 +29,7 @@ export class PetController {
     }
 
     @Get()
+    @ApiBearerAuth()
     @ApiQuery({ name: 'take', required: false })
     @ApiQuery({ name: 'skip', required: false })
     @ApiQuery({ name: 'sort', required: false })
