@@ -13,6 +13,7 @@ import { UserEntity } from './user.entity';
 import { ApiResponseInterface } from 'src/interfaces/ApiResponse';
 import { ApiResponse, ApiTags, ApiParam, ApiQuery } from '@nestjs/swagger';
 import { Sort } from 'src/utils/sort.type';
+import { Public } from 'src/decorators/public.decorators';
 
 @ApiTags('User')
 @Controller('user')
@@ -59,6 +60,7 @@ export class UserController {
     // }
 
     @Post()
+    @Public()
     @ApiResponse({
         status: 201,
         description: 'Created',

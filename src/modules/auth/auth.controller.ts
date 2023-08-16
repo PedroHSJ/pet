@@ -10,7 +10,7 @@ import { AuthService } from './auth.service';
 import { AuthDTO } from './auth.dto';
 import { ApiResponse, ApiTags } from '@nestjs/swagger';
 import { AllowGuad } from './auth.guard';
-import { Public } from './decorators/public.decorators';
+import { Public } from '../../decorators/public.decorators';
 
 @ApiTags('Login')
 @Controller('auth')

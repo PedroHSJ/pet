@@ -8,7 +8,7 @@ import { verify } from 'jsonwebtoken';
 import { Request } from 'express';
 import { Observable } from 'rxjs';
 import { Reflector } from '@nestjs/core';
-import { IS_PUBLIC_KEY } from './decorators/public.decorators';
+import { IS_PUBLIC_KEY } from '../../decorators/public.decorators';
 import { JwtService } from '@nestjs/jwt';
 
 @Injectable()

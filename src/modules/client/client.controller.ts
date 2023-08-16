@@ -5,6 +5,7 @@ import { ClientDTO, ClientParamDTO } from './client.dto';
 import { ApiResponseInterface } from 'src/interfaces/ApiResponse';
 import { ClientEntity } from './client.entity';
 import { Sort } from 'src/utils/sort.type';
+import { Public } from 'src/decorators/public.decorators';
 
 @ApiTags('Client')
 @Controller('client')
@@ -12,6 +13,7 @@ export class ClientController {
     constructor(private readonly clientService: ClientService) {}
 
     @Post()
+    @Public()
     async create(@Body() client: ClientDTO): Promise<{ id: string }> {
         return await this.clientService.create(client);
     }
