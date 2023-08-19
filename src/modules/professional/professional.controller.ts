@@ -5,6 +5,7 @@ import { ProfessionalEntity } from './professional.entity';
 import { ApiBearerAuth, ApiQuery, ApiTags } from '@nestjs/swagger';
 import { Sort } from 'src/utils/sort.type';
 import { ProfessionalDTO, ProfessionalParamsDTO } from './professional.dto';
+import { Public } from 'src/decorators/public.decorators';
 
 @ApiTags('Professional')
 @Controller('professional')
@@ -38,7 +39,7 @@ export class ProfessionalController {
     }
 
     @Post()
-    @ApiBearerAuth()
+    @Public()
     async create(
         @Body() professional: ProfessionalDTO,
     ): Promise<{ id: string }> {
