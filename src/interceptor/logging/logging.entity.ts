@@ -1,4 +1,9 @@
-import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import {
+    Column,
+    CreateDateColumn,
+    Entity,
+    PrimaryGeneratedColumn,
+} from 'typeorm';
 
 @Entity('logs')
 export class LogEntity {
@@ -39,4 +44,9 @@ export class LogEntity {
         name: 'response_time',
     })
     responseTime: string;
+
+    @CreateDateColumn({
+        name: 'created_at',
+    })
+    createdAt: Date;
 }
