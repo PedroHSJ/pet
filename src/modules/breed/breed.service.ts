@@ -13,19 +13,16 @@ export class BreedService {
     ) {}
 
     async findAll(
-        take: number,
-        skip: number,
-        sort: Sort,
+        page: number,
+        pageSize: number,
+        order: Sort,
     ): Promise<BreedEntity[]> {
-        const sortOptions = ['ASC', 'DESC'];
-        if (!sortOptions.includes(sort.toUpperCase()))
-            throw new BadRequestException('Invalid sort option');
         return await this.breedRepository.find({
-            take,
-            skip,
+            take: pageSize,
+            skip: (page - 1) * pageSize,
             order: {
                 name: {
-                    direction: sort,
+                    direction: order,
                 },
             },
         });

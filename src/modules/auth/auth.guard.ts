@@ -37,11 +37,9 @@ export class AuthGuard implements CanActivate {
         }
         try {
             if (!process.env.SECRET) throw new Error('Secret key not found');
-            console.log(token);
             const payload = await this.jwtService.verifyAsync(token, {
                 secret: process.env.SECRET,
             });
-            console.log(payload);
             request.user = payload;
         } catch (error) {
             console.log(error);

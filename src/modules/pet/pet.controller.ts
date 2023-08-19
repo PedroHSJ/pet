@@ -30,22 +30,27 @@ export class PetController {
 
     @Get()
     @ApiBearerAuth()
-    @ApiQuery({ name: 'take', required: false })
-    @ApiQuery({ name: 'skip', required: false })
-    @ApiQuery({ name: 'sort', required: false })
+    @ApiQuery({ name: 'pageSize', required: false })
+    @ApiQuery({ name: 'page', required: false })
+    @ApiQuery({ name: 'order', required: false })
     async findAll(
-        @Query('take') take: number = 10,
-        @Query('skip') skip: number = 1,
-        @Query('sort') sort: Sort = 'ASC',
+        @Query('pageSize') pageSize: number = 10,
+        @Query('page') page: number = 1,
+        @Query('order') order: Sort = 'ASC',
         @Query() params: PetParamsDTO,
     ): Promise<ApiResponseInterface<PetEntity>> {
-        const pets = await this.petService.findAll(take, skip, sort, params);
+        const { items, totalCount } = await this.petService.findAll(
+            pageSize,
+            page,
+            order,
+            params,
+        );
         const response: ApiResponseInterface<PetEntity> = {
-            items: pets,
-            totalCount: pets.length,
-            skip,
-            take,
-            sort,
+            items,
+            totalCount,
+            page,
+            pageSize,
+            order,
         };
         return response;
     }

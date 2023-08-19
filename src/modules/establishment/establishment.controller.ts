@@ -13,27 +13,27 @@ export class EstablishmentController {
 
     @Get()
     @ApiBearerAuth()
-    @ApiQuery({ name: 'take', required: false })
-    @ApiQuery({ name: 'skip', required: false })
-    @ApiQuery({ name: 'sort', required: false })
+    @ApiQuery({ name: 'pageSize', required: false })
+    @ApiQuery({ name: 'page', required: false })
+    @ApiQuery({ name: 'order', required: false })
     async findAll(
-        @Query('skip') skip: number = 0,
-        @Query('take') take: number = 10,
-        @Query('sort') sort: Sort = 'ASC',
+        @Query('page') page: number = 0,
+        @Query('pageSize') pageSize: number = 10,
+        @Query('order') order: Sort = 'ASC',
         @Query() params: EstablishmentParamsDTO,
     ): Promise<ApiResponseInterface<EstablishmentEntity>> {
         const { items, totalCount } = await this.establishmentService.findAll(
-            skip,
-            take,
-            sort,
+            page,
+            pageSize,
+            order,
             params,
         );
         return {
             items,
             totalCount,
-            skip,
-            take,
-            sort,
+            page,
+            pageSize,
+            order,
         };
     }
 

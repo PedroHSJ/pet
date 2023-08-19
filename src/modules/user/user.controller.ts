@@ -2,6 +2,7 @@ import {
     Body,
     Controller,
     Get,
+    NotFoundException,
     Param,
     Post,
     Query,
@@ -49,6 +50,7 @@ export class UserController {
         @Param() param: { id: string },
     ): Promise<ApiResponseInterface<UserEntity>> {
         const user = await this.userService.findOne(param.id);
+        if (user == null) throw new NotFoundException('Usuário não encontrado');
         const response: ApiResponseInterface<UserEntity> = {
             items: [user],
             totalCount: 1,

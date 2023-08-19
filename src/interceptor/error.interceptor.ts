@@ -4,6 +4,7 @@ import {
     ArgumentsHost,
     HttpException,
     HttpStatus,
+    BadRequestException,
 } from '@nestjs/common';
 import { QueryFailedError } from 'typeorm';
 import * as Yup from 'yup';
@@ -32,9 +33,11 @@ export class ErrorInterceptor implements ExceptionFilter {
                 .json({ message: 'Erro de validação.', errors });
         }
         if (exception instanceof QueryFailedError) {
-            status = HttpStatus.BAD_REQUEST;
-            message = exception.message;
+            const erro = new BadRequestException(exception.message);
+            status = erro.getStatus();
+            message = erro.getResponse() as string;
         }
+
         response.status(status).json({
             statusCode: status,
             timestamp: new Date().toISOString(),

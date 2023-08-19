@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { BadRequestException, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { ProfessionalEntity } from './professional.entity';
 import { Repository } from 'typeorm';
@@ -7,6 +7,7 @@ import { hash } from 'bcrypt';
 import { RoleEntity } from '../role/role.entity';
 import { Sort } from 'src/utils/sort.type';
 import { Role } from '../../enums/role';
+import { ApiResponseInterface } from 'src/interfaces/ApiResponse';
 
 @Injectable()
 export class ProfessionalService {
@@ -18,6 +19,12 @@ export class ProfessionalService {
     ) {}
 
     async create(professional: ProfessionalDTO): Promise<{ id: string }> {
+        const professionalExists = await this.professionalRepository.findOneBy({
+            crmv: professional.crmv,
+        });
+        if (professionalExists)
+            throw new BadRequestException('CRMV já cadastrado');
+
         professional.password = await hash(professional.password, 10);
         professional.name = professional.name.toUpperCase();
         professional.email = professional.email.toLowerCase();
@@ -36,16 +43,16 @@ export class ProfessionalService {
     }
 
     async findAll(
-        skip: number,
-        take: number,
-        sort: Sort,
         professional: ProfessionalParamsDTO,
-    ): Promise<{ items: ProfessionalEntity[]; totalCount: number }> {
-        const query = await this.professionalRepository
+        pageSize: number,
+        page: number,
+        order: Sort,
+    ): Promise<ApiResponseInterface<ProfessionalEntity>> {
+        const query = this.professionalRepository
             .createQueryBuilder('professional')
             .leftJoin('professional.role', 'role')
-            .addSelect('role.name')
-            .take(take);
+            .addSelect('role.name');
+
         if (professional.name)
             query.andWhere('professional.name ILIKE :name', {
                 name: `%${professional.name}%`,
@@ -65,8 +72,42 @@ export class ProfessionalService {
             query.andWhere('professional.crmv ILIKE :crmv', {
                 crmv: `%${professional.crmv}%`,
             });
-        const items = await query.getMany();
-        const totalCount = await query.getCount();
-        return { items, totalCount };
+
+        const [items, count] = await query
+            .skip((page - 1) * pageSize)
+            .take(pageSize)
+            .getManyAndCount();
+        return {
+            items,
+            totalCount: count,
+            page,
+            pageSize,
+            order,
+        };
+    }
+
+    async findById(id: string): Promise<ProfessionalEntity> {
+        const query = this.professionalRepository
+            .createQueryBuilder('professional')
+            .leftJoin('professional.role', 'role')
+            .addSelect('role.name')
+            .where('professional.id = :id', { id });
+
+        return await query.getOne();
+    }
+
+    async login(email: string): Promise<ProfessionalEntity> {
+        const query = this.professionalRepository
+            .createQueryBuilder('professional')
+            .addSelect('professional.password')
+            .leftJoin('professional.role', 'role')
+            .addSelect('role.name');
+
+        if (email)
+            query.andWhere('professional.email ILIKE :email', {
+                email: `%${email}%`,
+            });
+
+        return await query.getOne();
     }
 }

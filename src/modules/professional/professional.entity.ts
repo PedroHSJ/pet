@@ -47,6 +47,7 @@ export class ProfessionalEntity implements Base {
         type: 'varchar',
         length: 255,
         nullable: false,
+        unique: true,
     })
     crmv: string;
 

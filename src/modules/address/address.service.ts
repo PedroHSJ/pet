@@ -13,14 +13,15 @@ export class AddressService {
     ) {}
 
     async findAll(
-        skip: number,
-        take: number,
-        sort: Sort,
+        page: number,
+        pageSize: number,
+        order: Sort,
     ): Promise<{ items: AddressEntity[]; totalCount: number }> {
         const items = await this.addressRepository.find({
-            take,
+            take: pageSize,
+            skip: (page - 1) * pageSize,
             order: {
-                city: sort,
+                city: order,
             },
         });
 

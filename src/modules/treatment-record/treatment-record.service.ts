@@ -6,6 +6,7 @@ import { TreatementRecordDTO } from './treatment-record.dto';
 import { AnamnesisEntity } from './anamnese/anamnesis.entity';
 import { ScheduleEntity } from '../schedule/schedule.entity';
 import { Sort } from 'src/utils/sort.type';
+import { ApiResponseInterface } from 'src/interfaces/ApiResponse';
 
 @Injectable()
 export class TreatmentRecordService {
@@ -47,17 +48,24 @@ export class TreatmentRecordService {
     }
 
     async findAll(
-        skip: number,
-        take: number,
-        sort: Sort,
-    ): Promise<TreatmentRecordEntity[]> {
-        const treatmentRecords = await this.treatmentRecordRepository
+        page: number,
+        pageSize: number,
+        order: Sort,
+    ): Promise<ApiResponseInterface<TreatmentRecordEntity>> {
+        const query = this.treatmentRecordRepository
             .createQueryBuilder('treatmentRecord')
             .leftJoinAndSelect('treatmentRecord.anamnesis', 'anamnesis')
-            .leftJoinAndSelect('treatmentRecord.schedule', 'schedule')
-            .take(take)
-            .getMany();
+            .leftJoinAndSelect('treatmentRecord.schedule', 'schedule');
 
-        return treatmentRecords;
+        const [items, totalCount] = await query
+            .take(pageSize)
+            .skip((page - 1) * pageSize)
+            .orderBy('treatmentRecord.id', order)
+            .getManyAndCount();
+
+        return {
+            items,
+            totalCount,
+        };
     }
 }

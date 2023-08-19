@@ -5,6 +5,7 @@ import { Repository } from 'typeorm';
 import { Sort } from 'src/utils/sort.type';
 import { EstablishmentDTO, EstablishmentParamsDTO } from './establishment.dto';
 import { AddressEntity } from '../address/address.entity';
+import { ApiResponseInterface } from 'src/interfaces/ApiResponse';
 
 @Injectable()
 export class EstablishmentService {
@@ -16,17 +17,14 @@ export class EstablishmentService {
     ) {}
 
     async findAll(
-        skip: number,
-        take: number,
-        sort: Sort,
+        page: number,
+        pageSize: number,
+        order: Sort,
         establishment: EstablishmentParamsDTO,
-    ): Promise<{ items: EstablishmentEntity[]; totalCount: number }> {
-        const query = await this.establishmentRepository
+    ): Promise<ApiResponseInterface<EstablishmentEntity>> {
+        const query = this.establishmentRepository
             .createQueryBuilder('establishment')
-            .leftJoinAndSelect('establishment.address', 'address')
-            .take(take)
-            .orderBy('establishment.name', sort)
-            .where('1 = 1');
+            .leftJoinAndSelect('establishment.address', 'address');
 
         if (establishment.name)
             query.where('establishment.name ILIKE :name', {
@@ -37,8 +35,12 @@ export class EstablishmentService {
                 cnpj: `%${establishment.cnpj}%`,
             });
 
-        const items = await query.getMany();
-        const totalCount = await query.getCount();
+        const [items, totalCount] = await query
+            .take(pageSize)
+            .skip((page - 1) * pageSize)
+            .orderBy('establishment.name', order)
+            .getManyAndCount();
+
         return { items, totalCount };
     }
 

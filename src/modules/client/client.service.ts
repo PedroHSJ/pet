@@ -8,6 +8,7 @@ import { RoleEntity } from '../role/role.entity';
 import { Sort } from 'src/utils/sort.type';
 import { AddressEntity } from '../address/address.entity';
 import { Role } from '../../enums/role';
+import { ApiResponseInterface } from 'src/interfaces/ApiResponse';
 
 @Injectable()
 export class ClientService {
@@ -59,19 +60,40 @@ export class ClientService {
     }
 
     async findAll(
-        take: number,
-        skip: number,
-        sort: Sort,
-    ): Promise<ClientEntity[]> {
-        return await this.clientRepository
+        params: ClientParamDTO,
+        page: number,
+        pageSize: number,
+        order: Sort,
+    ): Promise<ApiResponseInterface<ClientEntity>> {
+        const query = this.clientRepository
             .createQueryBuilder('client')
             .leftJoin('client.role', 'role')
             .addSelect('role.name')
             .leftJoinAndSelect('client.pets', 'pets')
-            .leftJoinAndSelect('client.address', 'address')
-            .take(take)
-            .addOrderBy('client.name', sort)
-            .getMany();
+            .leftJoinAndSelect('client.address', 'address');
+
+        if (params.name) {
+            query.andWhere('client.name ilike :name', {
+                name: `%${params.name}%`,
+            });
+        }
+        if (params.email) {
+            query.andWhere('client.email ilike :email', {
+                email: `%${params.email}%`,
+            });
+        }
+
+        const [items, totalCount] = await query
+            .skip((page - 1) * pageSize)
+            .take(pageSize)
+            .getManyAndCount();
+        return {
+            items,
+            totalCount,
+            page,
+            pageSize,
+            order,
+        };
     }
 
     async findByParams(

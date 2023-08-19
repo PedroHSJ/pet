@@ -1,4 +1,12 @@
-import { Controller, Get, Query, Post, Body } from '@nestjs/common';
+import {
+    Controller,
+    Get,
+    Query,
+    Post,
+    Body,
+    Param,
+    NotFoundException,
+} from '@nestjs/common';
 import { ProfessionalService } from './professional.service';
 import { ApiResponseInterface } from 'src/interfaces/ApiResponse';
 import { ProfessionalEntity } from './professional.entity';
@@ -14,27 +22,44 @@ export class ProfessionalController {
 
     @Get()
     @ApiBearerAuth()
-    @ApiQuery({ name: 'take', required: false })
-    @ApiQuery({ name: 'skip', required: false })
-    @ApiQuery({ name: 'sort', required: false })
+    @ApiQuery({ name: 'pageSize', required: false })
+    @ApiQuery({ name: 'page', required: false })
+    @ApiQuery({ name: 'order', required: false })
     async findAll(
-        @Query('take') take: number = 10,
-        @Query('skip') skip: number = 1,
-        @Query('sort') sort: Sort = 'ASC',
+        @Query('pageSize') pageSize: number = 10,
+        @Query('page') page: number = 1,
+        @Query('order') order: Sort = 'ASC',
         @Query() params: ProfessionalParamsDTO,
     ): Promise<ApiResponseInterface<ProfessionalEntity>> {
         const { items, totalCount } = await this.professionalService.findAll(
-            skip,
-            take,
-            sort,
             params,
+            pageSize,
+            page,
+            order,
         );
         return {
             items,
             totalCount,
-            skip,
-            take,
-            sort,
+            page,
+            pageSize,
+            order,
+        };
+    }
+
+    @Get(':id')
+    @ApiBearerAuth()
+    async findOne(
+        @Param() param: { id: string },
+    ): Promise<ApiResponseInterface<ProfessionalEntity>> {
+        const response = await this.professionalService.findById(param.id);
+        if (response == null)
+            throw new NotFoundException('Profissional não encontrado');
+        return {
+            items: [response],
+            totalCount: 1,
+            page: 1,
+            pageSize: 1,
+            order: 'ASC',
         };
     }
 

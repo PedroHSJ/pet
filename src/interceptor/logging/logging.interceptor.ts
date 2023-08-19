@@ -39,7 +39,6 @@ export class LoggingInterceptor implements NestInterceptor {
                 };
 
                 // Salvar log no banco de dados
-                console.log(log);
                 this.logRepository.save(this.logRepository.create(log));
             }),
         );

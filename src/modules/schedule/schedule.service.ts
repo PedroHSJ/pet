@@ -7,6 +7,7 @@ import { EstablishmentEntity } from '../establishment/establishment.entity';
 import { ProfessionalEntity } from '../professional/professional.entity';
 import { ClientEntity } from '../client/client.entity';
 import { Sort } from 'src/utils/sort.type';
+import { ApiResponseInterface } from 'src/interfaces/ApiResponse';
 
 @Injectable()
 export class ScheduleService {
@@ -93,18 +94,23 @@ export class ScheduleService {
     }
 
     async findAll(
-        take: number,
-        skip: number,
-        sort: Sort,
-    ): Promise<ScheduleEntity[]> {
-        return await this.scheduleRepository
+        pageSize: number,
+        page: number,
+        order: Sort,
+    ): Promise<ApiResponseInterface<ScheduleEntity>> {
+        const query = this.scheduleRepository
             .createQueryBuilder('schedule')
-            .take(take)
 
-            .orderBy('schedule.day', sort)
             .leftJoinAndSelect('schedule.establishment', 'establishment')
             .leftJoinAndSelect('schedule.professional', 'professional')
-            .leftJoinAndSelect('schedule.client', 'client')
-            .getMany();
+            .leftJoinAndSelect('schedule.client', 'client');
+
+        const [items, totalCount] = await query
+            .take(pageSize)
+            .skip((page - 1) * pageSize)
+            .orderBy('schedule.day', order)
+            .getManyAndCount();
+
+        return { items, totalCount };
     }
 }

@@ -19,21 +19,21 @@ export class BreedController {
 
     @Get()
     @ApiBearerAuth()
-    @ApiQuery({ name: 'take', required: false })
-    @ApiQuery({ name: 'skip', required: false })
-    @ApiQuery({ name: 'sort', required: false })
+    @ApiQuery({ name: 'page', required: false })
+    @ApiQuery({ name: 'pageSize', required: false })
+    @ApiQuery({ name: 'order', required: false })
     async findAll(
-        @Query('take') take: number = 10,
-        @Query('skip') skip: number = 1,
-        @Query('sort') sort: Sort = 'ASC',
+        @Query('page') page: number = 10,
+        @Query('pageSize') pageSize: number = 1,
+        @Query('order') order: Sort = 'ASC',
     ): Promise<ApiResponseInterface<BreedEntity>> {
-        const breeds = await this.breedService.findAll(take, skip, sort);
+        const breeds = await this.breedService.findAll(page, pageSize, order);
         return {
             items: breeds,
             totalCount: breeds.length,
-            skip,
-            take,
-            sort,
+            page,
+            pageSize,
+            order,
         };
     }
 }

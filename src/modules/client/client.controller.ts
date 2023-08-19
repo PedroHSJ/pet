@@ -29,47 +29,52 @@ export class ClientController {
 
     @Get()
     @ApiBearerAuth()
-    @ApiQuery({ name: 'take', required: false })
-    @ApiQuery({ name: 'skip', required: false })
-    @ApiQuery({ name: 'sort', required: false })
+    @ApiQuery({ name: 'page', required: false })
+    @ApiQuery({ name: 'pageSize', required: false })
+    @ApiQuery({ name: 'order', required: false })
     async findAll(
-        @Query('take') take: number = 10,
-        @Query('skip') skip: number = 1,
-        @Query('sort') sort: Sort = 'ASC',
-    ): Promise<ApiResponseInterface<ClientEntity>> {
-        const clients = await this.clientService.findAll(take, skip, sort);
-        return {
-            items: clients,
-            totalCount: clients.length,
-            skip,
-            take,
-            sort,
-        };
-    }
-
-    @ApiBearerAuth()
-    @ApiQuery({ name: 'take', required: false })
-    @ApiQuery({ name: 'skip', required: false })
-    @ApiQuery({ name: 'sort', required: false })
-    @Get('/params')
-    async findByParams(
-        @Query('take') take: number = 10,
-        @Query('skip') skip: number = 1,
-        @Query('sort') sort: Sort = 'ASC',
+        @Query('page') page: number = 10,
+        @Query('pageSize') pageSize: number = 1,
+        @Query('order') order: Sort = 'ASC',
         @Query() params: ClientParamDTO,
-    ) {
-        const client = await this.clientService.findByParams(
-            take,
-            skip,
-            sort,
+    ): Promise<ApiResponseInterface<ClientEntity>> {
+        const { items, totalCount } = await this.clientService.findAll(
             params,
+            page,
+            pageSize,
+            order,
         );
         return {
-            items: client,
-            totalCount: client.length,
-            skip,
-            take,
-            sort,
+            items,
+            totalCount,
+            page,
+            pageSize,
+            order,
         };
     }
+    // @ApiBearerAuth()
+    // @ApiQuery({ name: 'take', required: false })
+    // @ApiQuery({ name: 'skip', required: false })
+    // @ApiQuery({ name: 'sort', required: false })
+    // @Get('/params')
+    // async findByParams(
+    //     @Query('take') take: number = 10,
+    //     @Query('skip') skip: number = 1,
+    //     @Query('sort') sort: Sort = 'ASC',
+    //     @Query() params: ClientParamDTO,
+    // ) {
+    //     const client = await this.clientService.findByParams(
+    //         take,
+    //         skip,
+    //         sort,
+    //         params,
+    //     );
+    //     return {
+    //         items: client,
+    //         totalCount: client.length,
+    //         skip,
+    //         take,
+    //         sort,
+    //     };
+    // }
 }

@@ -6,6 +6,7 @@ import { PetDTO, PetParamsDTO } from './pet.dto';
 import { BreedEntity } from '../breed/breed.entity';
 import { ClientEntity } from '../client/client.entity';
 import { Sort } from 'src/utils/sort.type';
+import { ApiResponseInterface } from 'src/interfaces/ApiResponse';
 
 @Injectable()
 export class PetService {
@@ -36,17 +37,15 @@ export class PetService {
     }
 
     async findAll(
-        take: number,
-        skip: number,
-        sort: Sort,
+        pageSize: number,
+        page: number,
+        order: Sort,
         pet: PetParamsDTO,
-    ): Promise<PetEntity[]> {
+    ): Promise<ApiResponseInterface<PetEntity>> {
         const query = await this.petRepository
             .createQueryBuilder('pet')
             .leftJoin('pet.breed', 'breed')
-            .addSelect('breed.name')
-            .take(take)
-            .orderBy('pet.name', sort);
+            .addSelect('breed.name');
 
         if (pet.name)
             query.where('pet.name ILIKE :name', {
@@ -68,7 +67,13 @@ export class PetService {
                 gender: pet.gender,
             });
 
-        return query.getMany();
+        const [items, totalCount] = await query
+            .take(pageSize)
+            .skip((page - 1) * pageSize)
+            .orderBy('pet.name', order)
+            .getManyAndCount();
+
+        return;
     }
 
     async findById(id: string): Promise<PetEntity> {
