@@ -39,4 +39,7 @@ export class EstablishmentParamsDTO {
         maxLength: 14,
     })
     cnpj: string;
+
+    @ApiPropertyOptional()
+    active: boolean;
 }

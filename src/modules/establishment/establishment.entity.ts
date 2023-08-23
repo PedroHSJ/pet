@@ -27,6 +27,9 @@ export class EstablishmentEntity implements Base {
     @Column({ type: 'varchar', length: 14, nullable: false })
     cnpj: string;
 
+    @Column({ type: 'boolean', default: true })
+    active: boolean;
+
     @OneToOne(() => AddressEntity, (address) => address.establishment)
     @JoinColumn({ name: 'address_id' })
     address: AddressEntity;

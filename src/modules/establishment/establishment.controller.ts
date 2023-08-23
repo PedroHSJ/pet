@@ -17,7 +17,7 @@ export class EstablishmentController {
     @ApiQuery({ name: 'page', required: false })
     @ApiQuery({ name: 'order', required: false })
     async findAll(
-        @Query('page') page: number = 0,
+        @Query('page') page: number = 1,
         @Query('pageSize') pageSize: number = 10,
         @Query('order') order: Sort = 'ASC',
         @Query() params: EstablishmentParamsDTO,
