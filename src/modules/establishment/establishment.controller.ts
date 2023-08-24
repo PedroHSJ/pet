@@ -22,6 +22,7 @@ export class EstablishmentController {
         @Query('order') order: Sort = 'ASC',
         @Query() params: EstablishmentParamsDTO,
     ): Promise<ApiResponseInterface<EstablishmentEntity>> {
+        console.log(params);
         const { items, totalCount } = await this.establishmentService.findAll(
             page,
             pageSize,

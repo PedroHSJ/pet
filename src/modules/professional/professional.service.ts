@@ -19,11 +19,19 @@ export class ProfessionalService {
     ) {}
 
     async create(professional: ProfessionalDTO): Promise<{ id: string }> {
-        const professionalExists = await this.professionalRepository.findOneBy({
-            crmv: professional.crmv,
-        });
-        if (professionalExists)
+        const professionalCRMVExists =
+            await this.professionalRepository.findOneBy({
+                crmv: professional.crmv,
+            });
+        if (professionalCRMVExists)
             throw new BadRequestException('CRMV já cadastrado');
+
+        const professionalEmailExists =
+            await this.professionalRepository.findOneBy({
+                email: professional.email,
+            });
+        if (professionalEmailExists)
+            throw new BadRequestException('Email já cadastrado');
 
         professional.password = await hash(professional.password, 10);
         professional.name = professional.name.toUpperCase();
@@ -76,6 +84,7 @@ export class ProfessionalService {
         const [items, count] = await query
             .skip((page - 1) * pageSize)
             .take(pageSize)
+            .orderBy('professional.name', order)
             .getManyAndCount();
         return {
             items,

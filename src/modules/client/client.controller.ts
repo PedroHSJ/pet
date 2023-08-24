@@ -33,8 +33,8 @@ export class ClientController {
     @ApiQuery({ name: 'pageSize', required: false })
     @ApiQuery({ name: 'order', required: false })
     async findAll(
-        @Query('page') page: number = 10,
-        @Query('pageSize') pageSize: number = 1,
+        @Query('page') page: number = 1,
+        @Query('pageSize') pageSize: number = 10,
         @Query('order') order: Sort = 'ASC',
         @Query() params: ClientParamDTO,
     ): Promise<ApiResponseInterface<ClientEntity>> {

@@ -35,6 +35,14 @@ export class EstablishmentService {
                 cnpj: `%${establishment.cnpj}%`,
             });
 
+        if (establishment.active) {
+            query.andWhere('establishment.active = :active', {
+                active: establishment.active,
+            });
+        }
+
+        console.log(establishment.active);
+
         const [items, totalCount] = await query
             .take(pageSize)
             .skip((page - 1) * pageSize)
