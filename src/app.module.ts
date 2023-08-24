@@ -20,6 +20,7 @@ import { RoleModule } from './modules/role/role.module';
 import { AuthModule } from './modules/auth/auth.module';
 import { JwtModule, JwtService } from '@nestjs/jwt';
 import { AuthGuard } from './modules/auth/auth.guard';
+import { EmailModule } from './modules/email/email.module';
 @Module({
     imports: [
         ConfigModule.forRoot({}),
@@ -45,6 +46,7 @@ import { AuthGuard } from './modules/auth/auth.guard';
         TreatmentRecordModule,
         RoleModule,
         AuthModule,
+        EmailModule,
     ],
     controllers: [AppController],
     providers: [

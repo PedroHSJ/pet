@@ -11,11 +11,15 @@ import { AuthDTO } from './auth.dto';
 import { ApiResponse, ApiTags } from '@nestjs/swagger';
 import { AllowGuad } from './auth.guard';
 import { Public } from '../../decorators/public.decorators';
+import { EmailService } from '../email/email.service';
 
 @ApiTags('Login')
 @Controller('auth')
 export class AuthController {
-    constructor(private readonly authService: AuthService) {}
+    constructor(
+        private readonly authService: AuthService,
+        private readonly emailService: EmailService,
+    ) {}
 
     @Post('')
     @Public()
@@ -24,3 +28,7 @@ export class AuthController {
         return await this.authService.login(auth);
     }
 }
+
+// await this.emailService.sendVerificationCode(
+//     'pedrohenriquesj.pro@gmail.com',
+// );
