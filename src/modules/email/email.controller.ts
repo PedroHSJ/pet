@@ -15,10 +15,7 @@ export class EmailController {
     async sendVerificationCode(@Body() body: sendVerificationCodeDTO) {
         try {
             const code = this.generateCode();
-            const response = await this.emailService.sendVerificationCode(
-                body.email,
-                code,
-            );
+            await this.emailService.sendVerificationCode(body.email, code);
             return hash(code, 10);
         } catch (error) {
             throw new BadRequestException(error.message);

@@ -10,7 +10,7 @@ import {
 import { ProfessionalService } from './professional.service';
 import { ApiResponseInterface } from 'src/interfaces/ApiResponse';
 import { ProfessionalEntity } from './professional.entity';
-import { ApiBearerAuth, ApiQuery, ApiTags } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiParam, ApiQuery, ApiTags } from '@nestjs/swagger';
 import { Sort } from 'src/utils/sort.type';
 import { ProfessionalDTO, ProfessionalParamsDTO } from './professional.dto';
 import { Public } from 'src/decorators/public.decorators';
@@ -48,6 +48,7 @@ export class ProfessionalController {
 
     @Get(':id')
     @ApiBearerAuth()
+    @ApiParam({ name: 'id', required: true })
     async findOne(
         @Param() param: { id: string },
     ): Promise<ApiResponseInterface<ProfessionalEntity>> {
@@ -56,6 +57,31 @@ export class ProfessionalController {
             throw new NotFoundException('Profissional não encontrado');
         return {
             items: [response],
+            totalCount: 1,
+            page: 1,
+            pageSize: 1,
+            order: 'ASC',
+        };
+    }
+
+    @Get('/verify-email/:email')
+    @Public()
+    @ApiParam({ name: 'email', required: true })
+    async findByEmail(
+        @Param() param: { email: string },
+    ): Promise<ApiResponseInterface<Partial<ProfessionalEntity>>> {
+        const response =
+            await this.professionalService.verifyProfessionalExistsByEmail(
+                param.email,
+            );
+        if (response == null)
+            throw new NotFoundException('Profissional não encontrado');
+        return {
+            items: [
+                {
+                    email: response.email,
+                },
+            ],
             totalCount: 1,
             page: 1,
             pageSize: 1,

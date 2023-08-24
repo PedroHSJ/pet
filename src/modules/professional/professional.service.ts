@@ -119,4 +119,14 @@ export class ProfessionalService {
 
         return await query.getOne();
     }
+
+    async verifyProfessionalExistsByEmail(
+        email: string,
+    ): Promise<ProfessionalEntity> {
+        if (!email) throw new BadRequestException('Email não informado');
+        const professional = await this.professionalRepository.findOneBy({
+            email,
+        });
+        return professional;
+    }
 }
