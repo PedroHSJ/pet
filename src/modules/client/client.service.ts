@@ -87,7 +87,6 @@ export class ClientService {
             .skip((page - 1) * pageSize)
             .take(pageSize)
             .getManyAndCount();
-        console.log(items);
         return {
             items,
             totalCount,

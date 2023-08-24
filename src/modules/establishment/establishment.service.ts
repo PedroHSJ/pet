@@ -41,8 +41,6 @@ export class EstablishmentService {
             });
         }
 
-        console.log(establishment.active);
-
         const [items, totalCount] = await query
             .take(pageSize)
             .skip((page - 1) * pageSize)
