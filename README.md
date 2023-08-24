@@ -36,6 +36,9 @@ DB_PORT=5432
 DB_NAME=pet
 DB_USER=postgres
 DB_PASSWORD=postgres
+PORT=3000
+EMAIL_USER=xxxxxxx@hotmail.com
+EMAIL_PASS=xxxxxxxxx
 ```
 
 ## Installation
