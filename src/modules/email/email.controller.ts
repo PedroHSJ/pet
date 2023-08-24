@@ -14,6 +14,8 @@ export class EmailController {
     @Public()
     async sendVerificationCode(@Body() body: sendVerificationCodeDTO) {
         try {
+            if (!body.email)
+                throw new BadRequestException('Email não informado');
             const code = this.generateCode();
             await this.emailService.sendVerificationCode(body.email, code);
             return hash(code, 10);
