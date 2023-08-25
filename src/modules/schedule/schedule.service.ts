@@ -58,19 +58,14 @@ export class ScheduleService {
             })
             .getCount();
 
-        console.log(scheduleExists);
         // throw new BadRequestException('Busy schedule');
         if (scheduleExists > 0) throw new BadRequestException('Busy schedule');
         const scheduleEntity = this.scheduleRepository.create(schedule);
 
-        console.log(establishment);
-        console.log(professional);
-        console.log(client);
-        console.log(scheduleEntity);
         scheduleEntity.establishment = establishment;
         scheduleEntity.professional = professional;
         scheduleEntity.client = client;
-        console.log(scheduleEntity);
+
         //throw new BadRequestException('Busy schedule');
         const newSchedule = await this.scheduleRepository.save(scheduleEntity);
         return { id: newSchedule.id };

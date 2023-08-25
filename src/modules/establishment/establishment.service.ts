@@ -84,7 +84,6 @@ export class EstablishmentService {
         const addressEntity = await this.addressRepository.save(
             this.addressRepository.create(establishment.address),
         );
-        console.log(addressEntity);
 
         const establishmentEntity = this.establishmentRepository.create({
             ...establishment,
