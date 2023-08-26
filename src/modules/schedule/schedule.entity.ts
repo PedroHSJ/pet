@@ -13,6 +13,7 @@ import { EstablishmentEntity } from '../establishment/establishment.entity';
 import { ProfessionalEntity } from '../professional/professional.entity';
 import { ClientEntity } from '../client/client.entity';
 import { TreatmentRecordEntity } from '../treatment-record/treatment-record.entity';
+import { PetEntity } from '../pet/pet.entity';
 
 @Entity('schedules')
 export class ScheduleEntity implements Base {
@@ -57,4 +58,7 @@ export class ScheduleEntity implements Base {
         (treatmentRecord) => treatmentRecord.schedule,
     )
     treatmentRecord: TreatmentRecordEntity;
+
+    @ManyToOne(() => PetEntity, (pet) => pet.schedules)
+    pet: PetEntity;
 }

@@ -98,7 +98,9 @@ export class ScheduleService {
 
             .leftJoinAndSelect('schedule.establishment', 'establishment')
             .leftJoinAndSelect('schedule.professional', 'professional')
-            .leftJoinAndSelect('schedule.client', 'client');
+            .leftJoinAndSelect('schedule.client', 'client')
+            .leftJoinAndSelect('schedule.pet', 'pets')
+            .leftJoinAndSelect('pets.breed', 'breed');
 
         const [items, totalCount] = await query
             .take(pageSize)

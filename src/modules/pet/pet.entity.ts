@@ -5,6 +5,7 @@ import {
     Entity,
     JoinColumn,
     ManyToOne,
+    OneToMany,
     PrimaryGeneratedColumn,
     UpdateDateColumn,
 } from 'typeorm';
@@ -12,6 +13,7 @@ import { BreedEntity } from '../breed/breed.entity';
 import { ClientEntity } from '../client/client.entity';
 import { Specie } from '../../enums/specie';
 import { Gender } from '../../enums/gender';
+import { ScheduleEntity } from '../schedule/schedule.entity';
 
 @Entity('pets')
 export class PetEntity implements Base {
@@ -60,4 +62,7 @@ export class PetEntity implements Base {
         nullable: false,
     })
     gender: Gender;
+
+    @OneToMany(() => ScheduleEntity, (schedule) => schedule.pet)
+    schedules: ScheduleEntity[];
 }
