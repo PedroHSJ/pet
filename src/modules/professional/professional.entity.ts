@@ -40,7 +40,6 @@ export class ProfessionalEntity implements Base {
     @Column({
         type: 'varchar',
         length: 255,
-        nullable: true,
     })
     phone: string;
 

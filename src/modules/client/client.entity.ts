@@ -45,6 +45,13 @@ export class ClientEntity implements Base {
     })
     password: string;
 
+    @Column({
+        type: 'varchar',
+        length: 255,
+        nullable: true,
+    })
+    phone: string;
+
     @ManyToOne(() => RoleEntity, {
         nullable: false,
     })

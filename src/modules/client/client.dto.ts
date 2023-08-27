@@ -26,6 +26,13 @@ export class ClientDTO {
     role: RoleDTO = {
         name: Role.CLIENT,
     };
+
+    @ApiProperty({
+        description: 'Phone of the client',
+        example: '83999547865',
+    })
+    phone: string;
+
     // @ApiPropertyOptional({
     //     description: 'Pets of the client',
     //     type: Array,
@@ -51,4 +58,10 @@ export class ClientParamDTO {
         description: 'Email of the client',
     })
     email?: string;
+
+    @ApiPropertyOptional({
+        description: 'Phone of the client',
+        example: '83999547865',
+    })
+    phone?: string;
 }

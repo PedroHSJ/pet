@@ -22,13 +22,14 @@ export class ClientService {
     ) {}
 
     async create(client: ClientDTO): Promise<{ id: string }> {
-        client.password = await hash(client.password, 10);
         const roleEntity = await this.roleRepository.findOneBy({
             name: Role.CLIENT,
         });
         if (roleEntity == null) throw new BadRequestException('Role not found');
         client.role = roleEntity;
 
+        client.password = await hash(client.password, 10);
+        client.phone = client.phone.replace(/\D/g, '');
         const clientEntity = this.clientRepository.create(client);
         const emailExist = await this.clientRepository.findOne({
             where: { email: client.email },
@@ -80,6 +81,11 @@ export class ClientService {
         if (params.email) {
             query.andWhere('client.email ilike :email', {
                 email: `%${params.email}%`,
+            });
+        }
+        if (params.phone) {
+            query.andWhere('client.phone ilike :phone', {
+                phone: `%${params.phone}%`,
             });
         }
 
