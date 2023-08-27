@@ -63,6 +63,13 @@ export class PetEntity implements Base {
     })
     gender: Gender;
 
+    @Column({
+        type: 'date',
+        nullable: true,
+        name: 'date_of_birth',
+    })
+    dateOfBirth: Date;
+
     @OneToMany(() => ScheduleEntity, (schedule) => schedule.pet)
     schedules: ScheduleEntity[];
 }

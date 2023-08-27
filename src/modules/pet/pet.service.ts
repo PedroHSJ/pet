@@ -67,6 +67,11 @@ export class PetService {
                 gender: pet.gender,
             });
 
+        if (pet.dateOfBirth)
+            query.andWhere('pet.dateOfBirth = :dateOfBirth', {
+                dateOfBirth: pet.dateOfBirth,
+            });
+
         const [items, totalCount] = await query
             .take(pageSize)
             .skip((page - 1) * pageSize)

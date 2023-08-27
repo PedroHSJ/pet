@@ -21,4 +21,5 @@ export const PetSchema = Yup.object().shape({
     clientId: Yup.string().uuid().required(REQUIRED),
     specie: Yup.string().oneOf(['DOG', 'CAT']).required(REQUIRED),
     gender: Yup.string().oneOf(['MALE', 'FEMALE']).required(REQUIRED),
+    dateOfBirth: Yup.date().required(REQUIRED),
 });

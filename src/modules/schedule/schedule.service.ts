@@ -99,6 +99,7 @@ export class ScheduleService {
             .leftJoinAndSelect('schedule.establishment', 'establishment')
             .leftJoinAndSelect('schedule.professional', 'professional')
             .leftJoinAndSelect('schedule.client', 'client')
+            .leftJoinAndSelect('client.address', 'address')
             .leftJoinAndSelect('schedule.pet', 'pets')
             .leftJoinAndSelect('pets.breed', 'breed');
 
