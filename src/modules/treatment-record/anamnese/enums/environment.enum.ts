@@ -1,5 +1,5 @@
 export enum Environment {
-    URBAN = 'URBAN',
+    URBAN = 'URBANO',
     RURAL = 'RURAL',
-    OTHER = 'OTHER',
+    OTHER = 'OUTRO',
 }

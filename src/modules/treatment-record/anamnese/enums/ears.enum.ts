@@ -1,5 +1,5 @@
 export enum Ears {
-    SECRETION = 'SECRETION',
-    PRURITUS = 'PRURITUS',
-    OTHER = 'OTHER',
+    SECRETION = 'SECREÇÃO',
+    PRURITUS = 'PRURIDO',
+    OTHER = 'OUTRO',
 }

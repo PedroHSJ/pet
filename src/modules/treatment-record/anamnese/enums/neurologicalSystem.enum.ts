@@ -1,6 +1,6 @@
 export enum NeurologicalSystem {
     NORMAL = 'NORMAL',
-    FAINTING = 'FAINTING',
+    FAINTING = 'DESMAIO',
     ATAXIA = 'ATAXIA',
-    OTHER = 'OTHER',
+    OTHER = 'OUTRO',
 }

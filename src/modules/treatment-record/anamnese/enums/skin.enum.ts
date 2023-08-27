@@ -1,7 +1,7 @@
 export enum Skin {
-    PRURITUS = 'PRURITUS',
-    ECTOPARASITES = 'ECTOPARASITES',
-    RASH = 'RASH',
+    PRURITUS = 'PRURIDO',
+    ECTOPARASITES = 'ECTOPARASITAS',
+    RASH = 'ERUPÇÃO CUTÂNEA',
     ECZEMA = 'ECZEMA',
-    OTHER = 'OTHER',
+    OTHER = 'OUTRO',
 }
