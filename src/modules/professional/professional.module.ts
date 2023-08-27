@@ -15,6 +15,8 @@ export class ProfessionalModule {
     configure(consumer: MiddlewareConsumer) {
         consumer
             .apply(ProfessionalMiddleware)
-            .forRoutes({ path: 'professional', method: RequestMethod.POST });
+            .forRoutes({ path: 'professional', method: RequestMethod.POST })
+            .apply(ProfessionalMiddleware)
+            .forRoutes({ path: 'professional/:id', method: RequestMethod.PUT });
     }
 }

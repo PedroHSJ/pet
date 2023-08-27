@@ -129,4 +129,28 @@ export class ProfessionalService {
         });
         return professional;
     }
+
+    async update(
+        id: string,
+        professional: ProfessionalDTO,
+    ): Promise<{ id: string }> {
+        const professionalEntity = await this.professionalRepository.findOneBy({
+            id,
+        });
+        if (!professionalEntity)
+            throw new BadRequestException('Profissional não encontrado');
+
+        if (professional.password)
+            professional.password = await hash(professional.password, 10);
+        if (professional.name)
+            professional.name = professional.name.toUpperCase();
+        if (professional.email)
+            professional.email = professional.email.toLowerCase();
+        if (professional.phone)
+            professional.phone = professional.phone.replace(/\D/g, '');
+
+        this.professionalRepository.update(id, professional);
+
+        return { id };
+    }
 }

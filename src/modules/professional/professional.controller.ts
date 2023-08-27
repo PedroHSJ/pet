@@ -6,6 +6,7 @@ import {
     Body,
     Param,
     NotFoundException,
+    Put,
 } from '@nestjs/common';
 import { ProfessionalService } from './professional.service';
 import { ApiResponseInterface } from 'src/interfaces/ApiResponse';
@@ -95,5 +96,15 @@ export class ProfessionalController {
         @Body() professional: ProfessionalDTO,
     ): Promise<{ id: string }> {
         return await this.professionalService.create(professional);
+    }
+
+    @Put(':id')
+    @ApiBearerAuth()
+    @ApiParam({ name: 'id', required: true })
+    async update(
+        @Param() param: { id: string },
+        @Body() professional: ProfessionalDTO,
+    ): Promise<{ id: string }> {
+        return await this.professionalService.update(param.id, professional);
     }
 }
