@@ -2,7 +2,7 @@ import { BadRequestException, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { ScheduleEntity } from './schedule.entity';
 import { Between, Equal, Repository } from 'typeorm';
-import { ScheduleDto } from './schedule.dto';
+import { ScheduleDto, ScheduleParamsDto } from './schedule.dto';
 import { EstablishmentEntity } from '../establishment/establishment.entity';
 import { ProfessionalEntity } from '../professional/professional.entity';
 import { ClientEntity } from '../client/client.entity';
@@ -89,6 +89,7 @@ export class ScheduleService {
     }
 
     async findAll(
+        schedule: ScheduleParamsDto,
         pageSize: number,
         page: number,
         order: Sort,
@@ -102,6 +103,26 @@ export class ScheduleService {
             .leftJoinAndSelect('client.address', 'address')
             .leftJoinAndSelect('schedule.pet', 'pets')
             .leftJoinAndSelect('pets.breed', 'breed');
+
+        if (schedule.establishmentId)
+            query.andWhere('schedule.establishment_id = :establishmentId', {
+                establishmentId: schedule.establishmentId,
+            });
+
+        if (schedule.professionalId)
+            query.andWhere('schedule.professional_id = :professionalId', {
+                professionalId: schedule.professionalId,
+            });
+
+        if (schedule.clientId)
+            query.andWhere('schedule.client_id = :clientId', {
+                clientId: schedule.clientId,
+            });
+
+        if (schedule.day)
+            query.andWhere('schedule.day = :day', {
+                day: schedule.day,
+            });
 
         const [items, totalCount] = await query
             .take(pageSize)

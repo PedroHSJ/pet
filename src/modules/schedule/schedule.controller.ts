@@ -1,7 +1,7 @@
 import { Body, Controller, Get, Param, Post, Put, Query } from '@nestjs/common';
 import { ApiParam, ApiQuery, ApiTags } from '@nestjs/swagger';
 import { ScheduleService } from './schedule.service';
-import { ScheduleDto } from './schedule.dto';
+import { ScheduleDto, ScheduleParamsDto } from './schedule.dto';
 import { Sort } from 'src/utils/sort.type';
 import { ApiResponseInterface } from 'src/interfaces/ApiResponse';
 import { ScheduleEntity } from './schedule.entity';
@@ -27,8 +27,10 @@ export class ScheduleController {
         @Query('pageSize') pageSize: number = 10,
         @Query('page') page: number = 1,
         @Query('order') order: Sort = 'ASC',
+        @Query() params: ScheduleParamsDto,
     ): Promise<ApiResponseInterface<ScheduleEntity>> {
         const { items, totalCount } = await this.scheduleService.findAll(
+            params,
             pageSize,
             page,
             order,
