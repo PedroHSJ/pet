@@ -1,4 +1,4 @@
-import { ApiProperty } from '@nestjs/swagger';
+import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 
 export class ScheduleDto {
     @ApiProperty({
@@ -21,4 +21,27 @@ export class ScheduleDto {
         format: 'date-time',
     })
     day: Date;
+}
+
+export class ScheduleParamsDto {
+    @ApiPropertyOptional({
+        description: 'Establishment id',
+        format: 'uuid',
+    })
+    establishmentId?: string;
+    @ApiPropertyOptional({
+        description: 'Professional id',
+        format: 'uuid',
+    })
+    professionalId?: string;
+    @ApiPropertyOptional({
+        description: 'Client id',
+        format: 'uuid',
+    })
+    clientId?: string;
+    @ApiPropertyOptional({
+        description: 'Day of schedule',
+        format: 'date-time',
+    })
+    day?: Date;
 }
