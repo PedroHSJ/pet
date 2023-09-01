@@ -46,12 +46,20 @@ export class ScheduleEntity implements Base {
     day: Date;
 
     @Column({
-        type: 'bit',
+        type: 'boolean',
         name: 'cancellation_status',
         nullable: false,
-        default: 0,
+        default: false,
     })
-    cancellationStatus: number;
+    cancellationStatus: boolean;
+
+    @Column({
+        type: 'boolean',
+        name: 'finished',
+        nullable: false,
+        default: false,
+    })
+    finished: boolean;
 
     @OneToOne(
         () => TreatmentRecordEntity,

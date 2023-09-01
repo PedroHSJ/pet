@@ -50,7 +50,7 @@ export class ScheduleController {
     @ApiQuery({ name: 'cancellationStatus', type: Boolean, required: true })
     async update(
         @Param('id') id: string,
-        @Query() params: { cancellationStatus: string },
+        @Query() params: { cancellationStatus: boolean },
     ): Promise<{ id: string }> {
         return await this.scheduleService.update(id, params.cancellationStatus);
     }

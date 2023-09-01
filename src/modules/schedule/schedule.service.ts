@@ -73,14 +73,14 @@ export class ScheduleService {
 
     async update(
         id: string,
-        cancellation_status?: string,
+        cancellation_status: boolean,
     ): Promise<{ id: string }> {
         const scheduleExist = await this.scheduleRepository.findOne({
             where: { id },
         });
         if (!scheduleExist) throw new BadRequestException('Schedule not found');
         await this.scheduleRepository.update(id, {
-            cancellationStatus: cancellation_status === 'true' ? 1 : 0,
+            cancellationStatus: cancellation_status,
         });
         const scheduleUpadted = await this.scheduleRepository.findOne({
             where: { id },

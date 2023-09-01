@@ -20,6 +20,15 @@ export class TreatementRecordDTO {
     mainComplaint: string;
 
     @ApiProperty({
+        type: 'string',
+        nullable: false,
+        maxLength: 255,
+        example:
+            'Foi realizado o tratamento com o paciente e foi passado um medicamento para ele.',
+    })
+    treatmentPerformed: string;
+
+    @ApiProperty({
         type: AnamnesisDTO,
         nullable: false,
     })
