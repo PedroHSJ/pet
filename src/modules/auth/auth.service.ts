@@ -37,7 +37,7 @@ export class AuthService {
         if (!isMatch) throw new UnauthorizedException('Credeciais inválidas');
         if (process.env.SECRET == undefined)
             throw new BadRequestException('Chave secreta não encontrada');
-        const token = await sign({ id: userEntity.id }, process.env.SECRET, {
+        const token = sign({ id: userEntity.id }, process.env.SECRET, {
             expiresIn: '7d',
         });
         return { token };

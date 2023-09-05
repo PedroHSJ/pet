@@ -2,13 +2,23 @@ import { BadRequestException, Body, Controller, Post } from '@nestjs/common';
 import { EmailService } from './email.service';
 import { Public } from 'src/decorators/public.decorators';
 import { hash } from 'bcrypt';
+import { ProfessionalService } from '../professional/professional.service';
+import { sign } from 'jsonwebtoken';
 interface sendVerificationCodeDTO {
     email: string;
 }
 
+interface compareVerificationCodeDTO {
+    email: string;
+    code: string;
+}
+
 @Controller('email')
 export class EmailController {
-    constructor(private readonly emailService: EmailService) {}
+    constructor(
+        private readonly emailService: EmailService,
+        private readonly professionalService: ProfessionalService,
+    ) {}
 
     @Post('/send-verification-code')
     @Public()
@@ -19,6 +29,57 @@ export class EmailController {
             const code = this.generateCode();
             await this.emailService.sendVerificationCode(body.email, code);
             return hash(code, 10);
+        } catch (error) {
+            throw new BadRequestException(error.message);
+        }
+    }
+
+    @Post('/send-and-save-verification-code')
+    @Public()
+    async sendAndSaveVerificationCode(@Body() body: sendVerificationCodeDTO) {
+        try {
+            const code = this.generateCode();
+            await this.emailService.sendVerificationCode(body.email, code);
+
+            const { items } = await this.professionalService.findAll({
+                email: body.email,
+            });
+
+            if (items.length > 0) {
+                const professional = items[0];
+                professional.verificationCode = code;
+                await this.professionalService.update(
+                    professional.id,
+                    professional,
+                );
+            }
+
+            return hash(code, 10);
+        } catch (error) {
+            throw new BadRequestException(error.message);
+        }
+    }
+
+    @Post('/compare-verification-code')
+    @Public()
+    async compareVerificationCode(@Body() body: compareVerificationCodeDTO) {
+        try {
+            const { items } = await this.professionalService.findAll({
+                email: body.email,
+            });
+
+            if (items.length == 0)
+                throw new BadRequestException('Email não encontrado');
+
+            const professional = items[0];
+            if (professional.verificationCode != body.code)
+                throw new BadRequestException('Código inválido');
+
+            const token = sign({ id: professional.id }, process.env.SECRET, {
+                expiresIn: '7d',
+            });
+
+            return { token };
         } catch (error) {
             throw new BadRequestException(error.message);
         }

@@ -52,9 +52,9 @@ export class ProfessionalService {
 
     async findAll(
         professional: ProfessionalParamsDTO,
-        pageSize: number,
-        page: number,
-        order: Sort,
+        pageSize?: number,
+        page?: number,
+        order?: Sort,
     ): Promise<ApiResponseInterface<ProfessionalEntity>> {
         const query = this.professionalRepository
             .createQueryBuilder('professional')
@@ -81,11 +81,17 @@ export class ProfessionalService {
                 crmv: `%${professional.crmv}%`,
             });
 
-        const [items, count] = await query
-            .skip((page - 1) * pageSize)
-            .take(pageSize)
-            .orderBy('professional.name', order)
-            .getManyAndCount();
+        if (page && pageSize) {
+            query.skip((page - 1) * pageSize);
+        }
+        if (pageSize) {
+            query.take(pageSize);
+        }
+        if (order) {
+            query.orderBy('professional.name', order);
+        }
+
+        const [items, count] = await query.getManyAndCount();
         return {
             items,
             totalCount: count,

@@ -98,7 +98,6 @@ export class ProfessionalController {
         return await this.professionalService.create(professional);
     }
 
-    @Public()
     @Put(':id')
     @ApiParam({ name: 'id', required: true })
     async update(
