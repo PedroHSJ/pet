@@ -49,6 +49,10 @@ export class ClientDTO {
 //class para get by param
 export class ClientParamDTO {
     @ApiPropertyOptional({
+        description: 'Id of the client',
+    })
+    id: string;
+    @ApiPropertyOptional({
         description: 'Name of the client',
         minLength: 2,
         maxLength: 255,

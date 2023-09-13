@@ -73,6 +73,8 @@ export class ClientService {
             .leftJoinAndSelect('client.pets', 'pets')
             .leftJoinAndSelect('client.address', 'address');
 
+        if (params.id) query.andWhere('client.id = :id', { id: params.id });
+
         if (params.name) {
             query.andWhere('client.name ilike :name', {
                 name: `%${params.name}%`,
