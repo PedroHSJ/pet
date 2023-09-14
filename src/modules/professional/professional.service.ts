@@ -37,6 +37,7 @@ export class ProfessionalService {
         professional.name = professional.name.toUpperCase();
         professional.email = professional.email.toLowerCase();
         professional.phone = professional.phone.replace(/\D/g, '');
+
         const roleEntity = await this.roleRepository.findOneBy({
             name: Role.VETERINARIAN,
         });
@@ -79,6 +80,11 @@ export class ProfessionalService {
         if (professional.crmv)
             query.andWhere('professional.crmv ILIKE :crmv', {
                 crmv: `%${professional.crmv}%`,
+            });
+
+        if (professional.active)
+            query.andWhere('professional.active = :active', {
+                active: professional.active,
             });
 
         if (page && pageSize) {

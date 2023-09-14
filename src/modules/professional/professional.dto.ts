@@ -23,12 +23,17 @@ export class ProfessionalDTO {
         maxLength: 255,
     })
     crmv: string;
-    @ApiProperty({
+    @ApiPropertyOptional({
         description: 'Phone of the professional',
         minLength: 2,
         maxLength: 255,
     })
     phone?: string;
+
+    @ApiPropertyOptional({
+        description: 'Professionals active status',
+    })
+    active?: boolean;
 }
 
 export class ProfessionalParamsDTO {
@@ -54,4 +59,9 @@ export class ProfessionalParamsDTO {
         maxLength: 255,
     })
     phone?: string;
+
+    @ApiPropertyOptional({
+        description: 'Professionals active status',
+    })
+    active?: boolean;
 }

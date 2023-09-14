@@ -58,6 +58,9 @@ export class ProfessionalEntity implements Base {
     })
     verificationCode: string;
 
+    @Column({ type: 'boolean', default: true })
+    active: boolean;
+
     @ManyToOne(() => RoleEntity, {
         nullable: false,
     })
