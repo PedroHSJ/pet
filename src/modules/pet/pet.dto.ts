@@ -36,7 +36,7 @@ export class PetDTO {
 
     @ApiProperty({
         description: 'Gender of the pet',
-        enum: ['MALE', 'FEMALE'],
+        enum: Gender,
     })
     gender: Gender;
 
@@ -68,7 +68,7 @@ export class PetParamsDTO {
 
     @ApiPropertyOptional({
         description: 'Gender of the pet',
-        enum: ['MALE', 'FEMALE'],
+        enum: Gender,
     })
     gender: Gender;
 

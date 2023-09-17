@@ -81,6 +81,14 @@ export class EstablishmentService {
         // });
         // if (!addressExist) throw new BadRequestException('Address not found');
 
+        if (establishment.cnpj)
+            establishment.cnpj = establishment.cnpj.replace(/\D/g, '');
+        if (establishment.name)
+            establishment.name = establishment.name.toUpperCase();
+        if (establishment.address.postalCode)
+            establishment.address.postalCode =
+                establishment.address.postalCode.replace(/\D/g, '');
+
         const addressEntity = await this.addressRepository.save(
             this.addressRepository.create(establishment.address),
         );

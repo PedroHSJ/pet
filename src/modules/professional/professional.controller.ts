@@ -99,6 +99,7 @@ export class ProfessionalController {
     }
 
     @Put(':id')
+    @Public()
     @ApiParam({ name: 'id', required: true })
     async update(
         @Param() param: { id: string },

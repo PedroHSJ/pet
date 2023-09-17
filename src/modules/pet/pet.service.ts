@@ -32,6 +32,7 @@ export class PetService {
         const petEntity = this.petRepository.create(pet);
         petEntity.breed = breedEntity;
         petEntity.client = clientExist;
+        petEntity.name = pet.name.toUpperCase();
         const newPet = await this.petRepository.save(petEntity);
         return { id: newPet.id };
     }

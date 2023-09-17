@@ -87,6 +87,11 @@ export class ProfessionalService {
                 active: professional.active,
             });
 
+        if (professional.gender)
+            query.andWhere('professional.gender = :gender', {
+                gender: professional.gender,
+            });
+
         if (page && pageSize) {
             query.skip((page - 1) * pageSize);
         }

@@ -1,3 +1,4 @@
+import { Gender } from 'src/enums/gender';
 import {
     NAME_MAX_LENGTH,
     NAME_MIN_LENGTH,
@@ -20,6 +21,8 @@ export const PetSchema = Yup.object().shape({
     }),
     clientId: Yup.string().uuid().required(REQUIRED),
     specie: Yup.string().oneOf(['DOG', 'CAT']).required(REQUIRED),
-    gender: Yup.string().oneOf(['MALE', 'FEMALE']).required(REQUIRED),
+    gender: Yup.string()
+        .oneOf(Object.keys(Gender).map((key) => Gender[key]))
+        .required(REQUIRED),
     dateOfBirth: Yup.date().required(REQUIRED),
 });

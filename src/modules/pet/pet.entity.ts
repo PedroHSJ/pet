@@ -59,7 +59,6 @@ export class PetEntity implements Base {
     @Column({
         type: 'enum',
         enum: Gender,
-        nullable: false,
     })
     gender: Gender;
 

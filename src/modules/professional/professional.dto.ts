@@ -1,4 +1,5 @@
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
+import { Gender } from 'src/enums/gender';
 
 export class ProfessionalDTO {
     @ApiProperty({
@@ -23,6 +24,11 @@ export class ProfessionalDTO {
         maxLength: 255,
     })
     crmv: string;
+    @ApiProperty({
+        description: 'Gender of the professional',
+        enum: Gender,
+    })
+    gender: Gender;
     @ApiPropertyOptional({
         description: 'Phone of the professional',
         minLength: 2,
@@ -64,4 +70,9 @@ export class ProfessionalParamsDTO {
         description: 'Professionals active status',
     })
     active?: boolean;
+    @ApiPropertyOptional({
+        description: 'Gender of the pet',
+        enum: Gender,
+    })
+    gender?: Gender;
 }

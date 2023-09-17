@@ -6,7 +6,9 @@ import {
     PASSWORD_MAX_LENGTH,
     PASSWORD_MIN_LENGTH,
     PASSWORD_REQUIRED,
+    REQUIRED,
 } from '../../constants';
+import { Gender } from 'src/enums/gender';
 
 export const ProfessinalPostSchema = Yup.object().shape({
     name: Yup.string().min(3).required(NAME_REQUIRED),
@@ -16,6 +18,9 @@ export const ProfessinalPostSchema = Yup.object().shape({
         .max(255, PASSWORD_MAX_LENGTH)
         .required(PASSWORD_REQUIRED),
     crmv: Yup.string().required('CRMV is required'),
+    gender: Yup.string()
+        .oneOf(Object.keys(Gender).map((key) => Gender[key]))
+        .required(REQUIRED),
 });
 
 export const ProfessinalPutSchema = Yup.object().shape({

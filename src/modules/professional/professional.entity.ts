@@ -11,6 +11,7 @@ import {
 } from 'typeorm';
 import { RoleEntity } from '../role/role.entity';
 import { ScheduleEntity } from '../schedule/schedule.entity';
+import { Gender } from 'src/enums/gender';
 
 @Entity('professionals')
 export class ProfessionalEntity implements Base {
@@ -60,6 +61,12 @@ export class ProfessionalEntity implements Base {
 
     @Column({ type: 'boolean', default: true })
     active: boolean;
+
+    @Column({
+        type: 'enum',
+        enum: Gender,
+    })
+    gender: Gender;
 
     @ManyToOne(() => RoleEntity, {
         nullable: false,
