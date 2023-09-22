@@ -9,6 +9,7 @@ import { Skin } from './anamnese/enums/skin.enum';
 import { Eyes } from './anamnese/enums/eyes.enum';
 import { Ears } from './anamnese/enums/ears.enum';
 import { Environment } from './anamnese/enums/environment.enum';
+import { MeasurementCondition } from './measurement/enums/hydration.enum';
 
 export const TreatmentRecordSchema = Yup.object().shape({
     scheduleId: Yup.string().uuid().required(REQUIRED),
@@ -54,6 +55,21 @@ export const TreatmentRecordSchema = Yup.object().shape({
                 .required(REQUIRED),
 
             otherEnvironment: Yup.string().max(255),
+            hydration: Yup.mixed()
+                .oneOf(Object.values(MeasurementCondition))
+                .required(REQUIRED),
+            mucous: Yup.mixed()
+                .oneOf(Object.values(MeasurementCondition))
+                .required(REQUIRED),
+            oralCavity: Yup.mixed()
+                .oneOf(Object.values(MeasurementCondition))
+                .required(REQUIRED),
+            nasalCavity: Yup.mixed()
+                .oneOf(Object.values(MeasurementCondition))
+                .required(REQUIRED),
+            lymphnodes: Yup.mixed()
+                .oneOf(Object.values(MeasurementCondition))
+                .required(REQUIRED),
         })
         .required(REQUIRED),
 });

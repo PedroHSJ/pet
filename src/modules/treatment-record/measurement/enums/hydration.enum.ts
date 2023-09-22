@@ -1,4 +1,4 @@
 export enum MeasurementCondition {
     NORMAL = 'NORMAL',
-    UNSETTLED = 'UNSETTLED',
+    UNINFORMED = 'NÃO INFORMADO',
 }

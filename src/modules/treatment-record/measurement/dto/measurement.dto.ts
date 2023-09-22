@@ -37,34 +37,4 @@ export class MeasurementDTO {
         example: '80',
     })
     glycemia: string;
-    @ApiProperty({
-        type: 'enum',
-        enum: MeasurementCondition,
-        nullable: false,
-    })
-    hydration: MeasurementCondition;
-    @ApiProperty({
-        type: 'enum',
-        enum: MeasurementCondition,
-        nullable: false,
-    })
-    mucous: MeasurementCondition;
-    @ApiProperty({
-        type: 'enum',
-        enum: MeasurementCondition,
-        nullable: false,
-    })
-    oralCavity: MeasurementCondition;
-    @ApiProperty({
-        type: 'enum',
-        enum: MeasurementCondition,
-        nullable: false,
-    })
-    nasalCavity: MeasurementCondition;
-    @ApiProperty({
-        type: 'enum',
-        enum: MeasurementCondition,
-        nullable: false,
-    })
-    lymphNodes: MeasurementCondition;
 }

@@ -8,6 +8,7 @@ import { Skin } from '../enums/skin.enum';
 import { Eyes } from '../enums/eyes.enum';
 import { Ears } from '../enums/ears.enum';
 import { Environment } from '../enums/environment.enum';
+import { MeasurementCondition } from '../../measurement/enums/hydration.enum';
 
 export class AnamnesisDTO {
     @ApiProperty({
@@ -127,4 +128,35 @@ export class AnamnesisDTO {
         nullable: true,
     })
     otherEnvironment?: string;
+
+    @ApiProperty({
+        type: 'enum',
+        enum: MeasurementCondition,
+        nullable: false,
+    })
+    hydration: MeasurementCondition;
+    @ApiProperty({
+        type: 'enum',
+        enum: MeasurementCondition,
+        nullable: false,
+    })
+    mucous: MeasurementCondition;
+    @ApiProperty({
+        type: 'enum',
+        enum: MeasurementCondition,
+        nullable: false,
+    })
+    oralCavity: MeasurementCondition;
+    @ApiProperty({
+        type: 'enum',
+        enum: MeasurementCondition,
+        nullable: false,
+    })
+    nasalCavity: MeasurementCondition;
+    @ApiProperty({
+        type: 'enum',
+        enum: MeasurementCondition,
+        nullable: false,
+    })
+    lymphNodes: MeasurementCondition;
 }
