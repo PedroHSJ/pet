@@ -17,6 +17,7 @@ import { Skin } from './enums/skin.enum';
 import { Eyes } from './enums/eyes.enum';
 import { Ears } from './enums/ears.enum';
 import { Environment } from './enums/environment.enum';
+import { MeasurementCondition } from '../measurement/enums/hydration.enum';
 
 @Entity('anamnesis')
 export class AnamnesisEntity implements Base {
@@ -158,6 +159,41 @@ export class AnamnesisEntity implements Base {
         nullable: true,
     })
     environment: Environment;
+
+    @Column({
+        type: 'enum',
+        enum: MeasurementCondition,
+        name: 'hydration',
+    })
+    hydration: MeasurementCondition;
+
+    @Column({
+        type: 'enum',
+        enum: MeasurementCondition,
+        name: 'mucous',
+    })
+    mucous: MeasurementCondition;
+
+    @Column({
+        type: 'enum',
+        enum: MeasurementCondition,
+        name: 'oral_cavity',
+    })
+    oralCavity: MeasurementCondition;
+
+    @Column({
+        type: 'enum',
+        enum: MeasurementCondition,
+        name: 'nasal_cavity',
+    })
+    nasalCavity: MeasurementCondition;
+
+    @Column({
+        type: 'enum',
+        enum: MeasurementCondition,
+        name: 'lymph_nodes',
+    })
+    lymphNodes: MeasurementCondition;
 
     @Column({
         type: 'varchar',

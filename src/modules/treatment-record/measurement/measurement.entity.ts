@@ -50,41 +50,6 @@ export class MeasurementEntity implements Base {
     })
     glycemia: string;
 
-    @Column({
-        type: 'enum',
-        enum: MeasurementCondition,
-        name: 'hydration',
-    })
-    hydration: MeasurementCondition;
-
-    @Column({
-        type: 'enum',
-        enum: MeasurementCondition,
-        name: 'mucous',
-    })
-    mucous: MeasurementCondition;
-
-    @Column({
-        type: 'enum',
-        enum: MeasurementCondition,
-        name: 'oral_cavity',
-    })
-    oralCavity: MeasurementCondition;
-
-    @Column({
-        type: 'enum',
-        enum: MeasurementCondition,
-        name: 'nasal_cavity',
-    })
-    nasalCavity: MeasurementCondition;
-
-    @Column({
-        type: 'enum',
-        enum: MeasurementCondition,
-        name: 'lymph_nodes',
-    })
-    lymphNodes: MeasurementCondition;
-
     @OneToOne(
         () => TreatmentRecordEntity,
         (treatmentRecord) => treatmentRecord.measurement,

@@ -6,6 +6,8 @@ import { TreatmentRecordEntity } from './treatment-record.entity';
 import { TreatmentRecordMiddleware } from './treatment-record.middleware';
 import { AnamnesisEntity } from './anamnese/anamnesis.entity';
 import { ScheduleEntity } from '../schedule/schedule.entity';
+import { FoodEntity } from './food/food.entity';
+import { MeasurementEntity } from './measurement/measurement.entity';
 
 @Module({
     imports: [
@@ -13,6 +15,8 @@ import { ScheduleEntity } from '../schedule/schedule.entity';
             TreatmentRecordEntity,
             AnamnesisEntity,
             ScheduleEntity,
+            FoodEntity,
+            MeasurementEntity,
         ]),
     ],
     controllers: [TreatmentRecordController],

@@ -7,6 +7,7 @@ import { ScheduleEntity } from './schedule.entity';
 import { ProfessionalEntity } from '../professional/professional.entity';
 import { ClientEntity } from '../client/client.entity';
 import { EstablishmentEntity } from '../establishment/establishment.entity';
+import { PetEntity } from '../pet/pet.entity';
 
 @Module({
     imports: [
@@ -15,6 +16,7 @@ import { EstablishmentEntity } from '../establishment/establishment.entity';
             ProfessionalEntity,
             ClientEntity,
             EstablishmentEntity,
+            PetEntity,
         ]),
     ],
     controllers: [ScheduleController],

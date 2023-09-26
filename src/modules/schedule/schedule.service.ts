@@ -8,6 +8,7 @@ import { ProfessionalEntity } from '../professional/professional.entity';
 import { ClientEntity } from '../client/client.entity';
 import { Sort } from 'src/utils/sort.type';
 import { ApiResponseInterface } from 'src/interfaces/ApiResponse';
+import { PetEntity } from '../pet/pet.entity';
 
 @Injectable()
 export class ScheduleService {
@@ -20,6 +21,8 @@ export class ScheduleService {
         private readonly professionalRepository: Repository<ProfessionalEntity>,
         @InjectRepository(ClientEntity)
         private readonly clientRepository: Repository<ClientEntity>,
+        @InjectRepository(PetEntity)
+        private readonly petRepository: Repository<PetEntity>,
     ) {}
 
     async create(schedule: ScheduleDto): Promise<{ id: string }> {
@@ -43,6 +46,20 @@ export class ScheduleService {
         if (!establishment)
             throw new BadRequestException('Establishment not found');
 
+        // verificando se o pet do cliente informado existe no banco de dados
+        const petClient = await this.clientRepository
+            .createQueryBuilder('client')
+            .leftJoinAndSelect('client.pets', 'pets')
+            .where('client.id = :clientId', { clientId: schedule.clientId })
+            .andWhere('pets.id = :petId', { petId: schedule.petId })
+            .getOne();
+        if (!petClient) throw new BadRequestException('Pet not found');
+
+        const pet = await this.petRepository.findOne({
+            where: { id: schedule.petId },
+        });
+        if (!pet) throw new BadRequestException('Pet not found');
+
         //verificando se horário já está ocupado em um intervalo de 1 hora
         const scheduleExists = await this.scheduleRepository
             .createQueryBuilder('schedule')
@@ -65,6 +82,7 @@ export class ScheduleService {
         scheduleEntity.establishment = establishment;
         scheduleEntity.professional = professional;
         scheduleEntity.client = client;
+        scheduleEntity.pet = pet;
 
         //throw new BadRequestException('Busy schedule');
         const newSchedule = await this.scheduleRepository.save(scheduleEntity);
@@ -123,6 +141,12 @@ export class ScheduleService {
             query.andWhere('schedule.day = :day', {
                 day: schedule.day,
             });
+
+        if (schedule.finished) {
+            query.andWhere('schedule.finished = :finished', {
+                finished: schedule.finished,
+            });
+        }
 
         const [items, totalCount] = await query
             .take(pageSize)

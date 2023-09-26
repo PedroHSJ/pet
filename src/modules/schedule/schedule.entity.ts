@@ -42,6 +42,10 @@ export class ScheduleEntity implements Base {
     @JoinColumn({ name: 'client_id' })
     client: ClientEntity;
 
+    @ManyToOne(() => PetEntity, (pet) => pet.schedules)
+    @JoinColumn({ name: 'pet_id' })
+    pet: PetEntity;
+
     @Column({ type: 'timestamp', nullable: false })
     day: Date;
 
@@ -66,7 +70,4 @@ export class ScheduleEntity implements Base {
         (treatmentRecord) => treatmentRecord.schedule,
     )
     treatmentRecord: TreatmentRecordEntity;
-
-    @ManyToOne(() => PetEntity, (pet) => pet.schedules)
-    pet: PetEntity;
 }
