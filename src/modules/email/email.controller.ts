@@ -4,15 +4,21 @@ import { Public } from 'src/decorators/public.decorators';
 import { hash } from 'bcrypt';
 import { ProfessionalService } from '../professional/professional.service';
 import { sign } from 'jsonwebtoken';
-interface sendVerificationCodeDTO {
+import { ApiProperty, ApiTags } from '@nestjs/swagger';
+class sendVerificationCodeDTO {
+    @ApiProperty({
+        description: 'Email do usuário',
+        example: 'email@email.com',
+    })
     email: string;
 }
 
-interface compareVerificationCodeDTO {
+class compareVerificationCodeDTO {
     email: string;
     code: string;
 }
 
+@ApiTags('Email')
 @Controller('email')
 export class EmailController {
     constructor(
