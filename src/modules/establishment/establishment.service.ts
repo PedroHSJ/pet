@@ -103,4 +103,25 @@ export class EstablishmentService {
 
         return { id: newEstablishment.id };
     }
+
+    async update(
+        id: string,
+        establishment: EstablishmentDTO,
+    ): Promise<{ id: string }> {
+        const establishmentExist = await this.establishmentRepository.findOne({
+            where: { id },
+        });
+        if (!establishmentExist)
+            throw new BadRequestException('Establishment not found');
+        if (establishment.cnpj)
+            establishment.cnpj = establishment.cnpj.replace(/\D/g, '');
+        if (establishment.name)
+            establishment.name = establishment.name.toUpperCase();
+        if (establishment.address.postalCode)
+            establishment.address.postalCode =
+                establishment.address.postalCode.replace(/\D/g, '');
+
+        this.establishmentRepository.update(id, establishment);
+        return { id };
+    }
 }

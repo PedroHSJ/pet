@@ -36,15 +36,11 @@ export class ClientService {
         });
         if (emailExist) throw new BadRequestException('Email already exists');
 
-        if (client.addressId) {
-            const addressExist = await this.addressRepository.findOne({
-                where: { id: client.addressId },
-            });
-            if (!addressExist)
-                throw new BadRequestException('Address not found');
+        const addressEntity = await this.addressRepository.save(
+            this.addressRepository.create(client.address),
+        );
 
-            clientEntity.address = addressExist;
-        }
+        clientEntity.address = addressEntity;
 
         const newClient = await this.clientRepository.save(clientEntity);
         return { id: newClient.id };
@@ -132,5 +128,20 @@ export class ClientService {
         }
 
         return await query.getMany();
+    }
+
+    async login(email: string): Promise<ClientEntity> {
+        const query = this.clientRepository
+            .createQueryBuilder('client')
+            .addSelect('client.password')
+            .leftJoin('client.role', 'role')
+            .addSelect('role.name');
+
+        if (email)
+            query.andWhere('client.email ILIKE :email', {
+                email: `%${email}%`,
+            });
+
+        return await query.getOne();
     }
 }

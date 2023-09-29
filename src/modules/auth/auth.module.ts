@@ -9,12 +9,27 @@ import { JwtService } from '@nestjs/jwt';
 import { ProfessionalService } from '../professional/professional.service';
 import { ProfessionalEntity } from '../professional/professional.entity';
 import { EmailService } from '../email/email.service';
+import { ClientEntity } from '../client/client.entity';
+import { ClientService } from '../client/client.service';
+import { AddressEntity } from '../address/address.entity';
 
 @Module({
     imports: [
-        TypeOrmModule.forFeature([UserEntity, RoleEntity, ProfessionalEntity]),
+        TypeOrmModule.forFeature([
+            UserEntity,
+            RoleEntity,
+            ProfessionalEntity,
+            ClientEntity,
+            AddressEntity,
+        ]),
     ],
     controllers: [AuthController],
-    providers: [AuthService, UserService, ProfessionalService, EmailService],
+    providers: [
+        AuthService,
+        UserService,
+        ProfessionalService,
+        EmailService,
+        ClientService,
+    ],
 })
 export class AuthModule {}

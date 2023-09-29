@@ -1,9 +1,9 @@
-import { Body, Controller, Get, Post, Query } from '@nestjs/common';
+import { Body, Controller, Get, Param, Post, Put, Query } from '@nestjs/common';
 import { EstablishmentService } from './establishment.service';
 import { ApiResponseInterface } from 'src/interfaces/ApiResponse';
 import { EstablishmentEntity } from './establishment.entity';
 import { Sort } from 'src/utils/sort.type';
-import { ApiBearerAuth, ApiQuery, ApiTags } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiParam, ApiQuery, ApiTags } from '@nestjs/swagger';
 import { EstablishmentDTO, EstablishmentParamsDTO } from './establishment.dto';
 
 @ApiTags('Establishment')
@@ -43,5 +43,15 @@ export class EstablishmentController {
         @Body() establishment: EstablishmentDTO,
     ): Promise<{ id: string }> {
         return await this.establishmentService.create(establishment);
+    }
+
+    @Put(':id')
+    @ApiParam({ name: 'id', required: true })
+    async put(
+        @Param() param: { id: string },
+        @Body() establishment: EstablishmentDTO,
+    ): Promise<{ id: string }> {
+        const id = param.id;
+        return await this.establishmentService.update(id, establishment);
     }
 }

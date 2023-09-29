@@ -1,6 +1,7 @@
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 import { RoleDTO } from '../role/role.dto';
 import { Role } from '../../enums/role';
+import { AddressDTO } from '../address/address.dto';
 
 interface Pet {
     id: string;
@@ -39,11 +40,10 @@ export class ClientDTO {
     // })
     // petsId?: Pet[];
 
-    @ApiPropertyOptional({
+    @ApiProperty({
         description: 'Address of the client',
-        type: String,
     })
-    addressId?: string;
+    address: AddressDTO;
 }
 
 //class para get by param
@@ -68,4 +68,9 @@ export class ClientParamDTO {
         example: '83999547865',
     })
     phone?: string;
+
+    @ApiPropertyOptional({
+        description: 'Address of the client',
+    })
+    address: AddressDTO;
 }
