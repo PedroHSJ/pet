@@ -46,6 +46,7 @@ export class EstablishmentController {
     }
 
     @Put(':id')
+    @ApiBearerAuth()
     @ApiParam({ name: 'id', required: true })
     async put(
         @Param() param: { id: string },
