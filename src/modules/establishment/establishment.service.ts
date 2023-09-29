@@ -121,6 +121,12 @@ export class EstablishmentService {
             establishment.address.postalCode =
                 establishment.address.postalCode.replace(/\D/g, '');
 
+        if (establishment.address) {
+            const addressEntity = await this.addressRepository.save(
+                this.addressRepository.create(establishment.address),
+            );
+            establishment.address = addressEntity;
+        }
         this.establishmentRepository.update(id, establishment);
         return { id };
     }
