@@ -65,7 +65,6 @@ export class ProfessionalEntity implements Base {
     @Column({
         type: 'enum',
         enum: Gender,
-        nullable: true,
     })
     gender: Gender;
 
