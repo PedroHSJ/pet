@@ -39,8 +39,7 @@ export class EmailService {
             let defaultClient = brevo.ApiClient.instance;
 
             let apiKey = defaultClient.authentications['api-key'];
-            apiKey.apiKey =
-                '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';
+            apiKey.apiKey = process.env.BREVO_API_KEY;
 
             const apiInstance = new brevo.TransactionalEmailsApi();
             const templateId = 1;
