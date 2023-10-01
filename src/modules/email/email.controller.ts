@@ -11,6 +11,12 @@ class sendVerificationCodeDTO {
         example: 'email@email.com',
     })
     email: string;
+
+    @ApiProperty({
+        description: 'Nome do usuário',
+        example: 'Pedro Henrique',
+    })
+    name: string;
 }
 
 class compareVerificationCodeDTO {
@@ -33,63 +39,67 @@ export class EmailController {
             if (!body.email)
                 throw new BadRequestException('Email não informado');
             const code = this.generateCode();
-            await this.emailService.sendVerificationCode(body.email, code);
+            await this.emailService.sendVerificationCode(
+                body.email,
+                body.name,
+                code,
+            );
             return hash(code, 10);
         } catch (error) {
             throw new BadRequestException(error.message);
         }
     }
 
-    @Post('/send-and-save-verification-code')
-    @Public()
-    async sendAndSaveVerificationCode(@Body() body: sendVerificationCodeDTO) {
-        try {
-            const code = this.generateCode();
-            await this.emailService.sendVerificationCode(body.email, code);
+    // @Post('/send-and-save-verification-code')
+    // @Public()
+    // async sendAndSaveVerificationCode(@Body() body: sendVerificationCodeDTO) {
+    //     try {
+    //         const code = this.generateCode();
+    //         //await this.emailService.sendVerificationCode(body.email, code);
 
-            const { items } = await this.professionalService.findAll({
-                email: body.email,
-            });
+    //         const { items } = await this.professionalService.findAll({
+    //             email: body.email,
+    //         });
 
-            if (items.length > 0) {
-                const professional = items[0];
-                professional.verificationCode = code;
-                await this.professionalService.update(
-                    professional.id,
-                    professional,
-                );
-            }
+    //         if (items.length > 0) {
+    //             const professional = items[0];
+    //             professional.verificationCode = code;
+    //             await this.professionalService.update(
+    //                 professional.id,
+    //                 professional,
+    //             );
+    //         }
 
-            return hash(code, 10);
-        } catch (error) {
-            throw new BadRequestException(error.message);
-        }
-    }
+    //         return hash(code, 10);
+    //     } catch (error) {
+    //         throw new BadRequestException(error.message);
+    //     }
+    // }
 
-    @Post('/compare-verification-code')
-    @Public()
-    async compareVerificationCode(@Body() body: compareVerificationCodeDTO) {
-        try {
-            const { items } = await this.professionalService.findAll({
-                email: body.email,
-            });
+    // @Post('/compare-verification-code')
+    // @Public()
+    // async compareVerificationCode(@Body() body: compareVerificationCodeDTO) {
+    //     try {
+    //         const { items } = await this.professionalService.findAll({
+    //             email: body.email,
+    //         });
 
-            if (items.length == 0)
-                throw new BadRequestException('Email não encontrado');
+    //         if (items.length == 0)
+    //             throw new BadRequestException('Email não encontrado');
 
-            const professional = items[0];
-            if (professional.verificationCode != body.code)
-                throw new BadRequestException('Código inválido');
+    //         const professional = items[0];
+    //         if (professional.verificationCode != body.code)
+    //             throw new BadRequestException('Código inválido');
 
-            const token = sign({ id: professional.id }, process.env.SECRET, {
-                expiresIn: '7d',
-            });
+    //         const token = sign({ id: professional.id }, process.env.SECRET, {
+    //             expiresIn: '7d',
+    //         });
 
-            return { token };
-        } catch (error) {
-            throw new BadRequestException(error.message);
-        }
-    }
+    //         return { token };
+    //     } catch (error) {
+    //         throw new BadRequestException(error.message);
+    //     }
+    // }
 
     generateCode(): string {
         const code = Math.floor(Math.random() * 1000000).toString();
