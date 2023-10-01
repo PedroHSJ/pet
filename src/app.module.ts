@@ -21,6 +21,9 @@ import { AuthModule } from './modules/auth/auth.module';
 import { JwtModule, JwtService } from '@nestjs/jwt';
 import { AuthGuard } from './modules/auth/auth.guard';
 import { EmailModule } from './modules/email/email.module';
+import { RoleEntity } from './modules/role/role.entity';
+import { ProfessionalEntity } from './modules/professional/professional.entity';
+import { UserEntity } from './modules/user/user.entity';
 @Module({
     imports: [
         ConfigModule.forRoot({}),
@@ -34,7 +37,7 @@ import { EmailModule } from './modules/email/email.module';
             entities: [__dirname + '/**/*.entity{.ts,.js}'],
             synchronize: true,
         }),
-        TypeOrmModule.forFeature([LogEntity]),
+        TypeOrmModule.forFeature([LogEntity, RoleEntity, UserEntity]),
         UserModule,
         BreedModule,
         ClientModule,
