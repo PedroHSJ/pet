@@ -39,18 +39,27 @@ export class EmailService {
             let defaultClient = brevo.ApiClient.instance;
 
             let apiKey = defaultClient.authentications['api-key'];
+            // apiKey.apiKey =
+            //     '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';
             apiKey.apiKey = process.env.BREVO_API_KEY;
 
             const apiInstance = new brevo.TransactionalEmailsApi();
             const templateId = 1;
-            var sendTestEmail = new brevo.SendTestEmail(); // SendTestEmail |
+            var sendTestEmail = new brevo.SendSmtpEmail(); //
 
-            sendTestEmail.emailTo = [to];
+            sendTestEmail.templateId = templateId;
+            sendTestEmail.to = [
+                {
+                    email: to,
+                    name: name,
+                },
+            ];
+
             sendTestEmail.params = {
                 items: [{ verification_code: code, name: name.toUpperCase() }],
             };
 
-            apiInstance.sendTestTemplate(templateId, sendTestEmail).then(
+            apiInstance.sendTransacEmail(sendTestEmail).then(
                 function (data) {
                     console.log(
                         'API called successfully. Returned data: ' + code,

@@ -71,7 +71,7 @@ export class AppService implements OnApplicationBootstrap {
         const userExist = await this.userRepository.findOneBy({
             email: admin.email,
         });
-        if (userExist) throw new Error('User already exists');
-        await this.userRepository.save(this.userRepository.create(admin));
+        if (!userExist)
+            await this.userRepository.save(this.userRepository.create(admin));
     }
 }
