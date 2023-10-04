@@ -1,4 +1,4 @@
-import { ApiProperty } from '@nestjs/swagger';
+import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 import { AnamnesisDTO } from './anamnese/dto/anamnesis.dto';
 import { FoodDTO } from './food/dto/food.dto';
 import { MeasurementDTO } from './measurement/dto/measurement.dto';
@@ -45,4 +45,21 @@ export class TreatementRecordDTO {
         nullable: false,
     })
     measurement: MeasurementDTO;
+}
+
+export class TreatementRecordParamsDTO {
+    @ApiPropertyOptional({
+        type: 'string',
+        format: 'uuid',
+        description: 'Schedule id',
+    })
+    scheduleId?: string;
+
+    @ApiPropertyOptional({
+        type: 'string',
+        nullable: false,
+        format: 'uuid',
+        description: 'Professional id',
+    })
+    professionalId?: string;
 }

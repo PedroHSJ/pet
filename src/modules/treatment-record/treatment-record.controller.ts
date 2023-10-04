@@ -1,6 +1,9 @@
 import { Body, Controller, Get, Post, Query } from '@nestjs/common';
 import { TreatmentRecordService } from './treatment-record.service';
-import { TreatementRecordDTO } from './treatment-record.dto';
+import {
+    TreatementRecordDTO,
+    TreatementRecordParamsDTO,
+} from './treatment-record.dto';
 import { ApiBearerAuth, ApiQuery, ApiTags } from '@nestjs/swagger';
 import { TreatmentRecordEntity } from './treatment-record.entity';
 import { Sort } from 'src/utils/sort.type';
@@ -33,11 +36,13 @@ export class TreatmentRecordController {
         @Query('pageSize') pageSize: number = 10,
         @Query('page') page: number = 1,
         @Query('order') order: Sort = 'ASC',
+        @Query() params: TreatementRecordParamsDTO,
     ): Promise<ApiResponseInterface<TreatmentRecordEntity>> {
         const { items, totalCount } = await this.treatmentRecordService.findAll(
             page,
             pageSize,
             order,
+            params,
         );
         return {
             items,

@@ -2,7 +2,10 @@ import { BadRequestException, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { TreatmentRecordEntity } from './treatment-record.entity';
 import { Repository } from 'typeorm';
-import { TreatementRecordDTO } from './treatment-record.dto';
+import {
+    TreatementRecordDTO,
+    TreatementRecordParamsDTO,
+} from './treatment-record.dto';
 import { AnamnesisEntity } from './anamnese/anamnesis.entity';
 import { ScheduleEntity } from '../schedule/schedule.entity';
 import { Sort } from 'src/utils/sort.type';
@@ -74,6 +77,7 @@ export class TreatmentRecordService {
         page: number,
         pageSize: number,
         order: Sort,
+        params: TreatementRecordParamsDTO,
     ): Promise<ApiResponseInterface<TreatmentRecordEntity>> {
         const query = this.treatmentRecordRepository
             .createQueryBuilder('treatmentRecord')
@@ -84,7 +88,19 @@ export class TreatmentRecordService {
             .leftJoinAndSelect('schedule.professional', 'professional')
             .leftJoinAndSelect('schedule.client', 'client')
             .leftJoinAndSelect('schedule.establishment', 'establishment')
-            .leftJoinAndSelect('schedule.pet', 'pet');
+            .leftJoinAndSelect('schedule.pet', 'pet')
+
+            .andWhere('1 = 1');
+
+        if (params.scheduleId)
+            query.andWhere('schedule.id = :scheduleId', {
+                scheduleId: params.scheduleId,
+            });
+
+        if (params.professionalId)
+            query.andWhere('professional.id = :professionalId', {
+                professionalId: params.professionalId,
+            });
 
         const [items, totalCount] = await query
             .take(pageSize)
