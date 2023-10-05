@@ -151,4 +151,19 @@ export class ClientService {
 
         return await query.getOne();
     }
+
+    async updateSenha(
+        email: string,
+        password: string,
+        verificationCode: string,
+    ) {
+        const emailExist = await this.clientRepository.findOne({
+            where: { email: email, verificationCode: verificationCode },
+        });
+
+        if (emailExist)
+            await this.clientRepository.update(emailExist.id, {
+                password: password,
+            });
+    }
 }

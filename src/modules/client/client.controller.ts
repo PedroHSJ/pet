@@ -52,6 +52,7 @@ export class ClientController {
             order,
         };
     }
+
     // @ApiBearerAuth()
     // @ApiQuery({ name: 'take', required: false })
     // @ApiQuery({ name: 'skip', required: false })

@@ -6,6 +6,8 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { ProfessionalEntity } from '../professional/professional.entity';
 import { RoleEntity } from '../role/role.entity';
 import { ClientEntity } from '../client/client.entity';
+import { ClientService } from '../client/client.service';
+import { AddressEntity } from '../address/address.entity';
 
 @Module({
     imports: [
@@ -13,9 +15,10 @@ import { ClientEntity } from '../client/client.entity';
             ProfessionalEntity,
             RoleEntity,
             ClientEntity,
+            AddressEntity,
         ]),
     ],
-    providers: [EmailService, ProfessionalService],
+    providers: [EmailService, ProfessionalService, ClientService],
     controllers: [EmailController],
 })
 export class EmailModule {}

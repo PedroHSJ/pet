@@ -58,7 +58,7 @@ export class ClientParamDTO {
     @ApiPropertyOptional({
         description: 'Id of the client',
     })
-    id: string;
+    id?: string;
     @ApiPropertyOptional({
         description: 'Name of the client',
         minLength: 2,
@@ -85,5 +85,5 @@ export class ClientParamDTO {
     @ApiPropertyOptional({
         description: 'Address of the client',
     })
-    address: AddressDTO;
+    address?: AddressDTO;
 }
