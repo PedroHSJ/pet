@@ -30,6 +30,13 @@ export class ClientService {
 
         client.password = await hash(client.password, 10);
         client.phone = client.phone.replace(/\D/g, '');
+        // PRIMEIRA LETRA DE CADA NOME MAIUSCULA
+        client.name = client.name
+            .split(' ')
+            .map((name) => {
+                return name.charAt(0).toUpperCase() + name.slice(1);
+            })
+            .join(' ');
         const clientEntity = this.clientRepository.create(client);
         const emailExist = await this.clientRepository.findOne({
             where: { email: client.email },

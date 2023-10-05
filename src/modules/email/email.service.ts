@@ -3,37 +3,24 @@ import * as nodemailer from 'nodemailer';
 import SMTPTransport from 'nodemailer/lib/smtp-transport';
 import Brevo from '@getbrevo/brevo';
 import axios from 'axios';
+import { InjectRepository } from '@nestjs/typeorm';
+import { ClientEntity } from '../client/client.entity';
+import { Repository } from 'typeorm';
+import { hash } from 'bcrypt';
 @Injectable()
 export class EmailService {
-    // async sendVerificationCode(
-    //     to: string,
-    //     code: string,
-    // ): Promise<SMTPTransport.SentMessageInfo> {
-    //     try {
-    //         const transport = nodemailer.createTransport({
-    //             host: 'smtp-relay.brevo.com',
-    //             port: 587,
-    //             secure: false, // true for 465, false for other ports
-    //             auth: {
-    //                 user: process.env.EMAIL_USER,
-    //                 pass: process.env.EMAIL_PASS,
-    //             },
-    //         });
+    constructor(
+        @InjectRepository(ClientEntity)
+        private readonly clientRepository: Repository<ClientEntity>,
+    ) {}
 
-    //         const mailOptions = {
-    //             from: process.env.EMAIL_USER,
-    //             to: to,
-    //             subject: 'Código de verificação',
-    //             text: `Seu código de verificação é: ${code}`,
-    //         };
-
-    //         return transport.sendMail(mailOptions);
-    //     } catch (error) {
-    //         throw new BadRequestException(error.message);
-    //     }
-    // }
-
-    async sendVerificationCode(to: string, name: string, code: string) {
+    async sendVerificationCode(
+        to: string,
+        name: string,
+        code: string,
+        template: number,
+        id?: string,
+    ) {
         try {
             const brevo = require('@getbrevo/brevo');
             let defaultClient = brevo.ApiClient.instance;
@@ -44,7 +31,7 @@ export class EmailService {
             apiKey.apiKey = process.env.BREVO_API_KEY;
 
             const apiInstance = new brevo.TransactionalEmailsApi();
-            const templateId = 1;
+            const templateId = template;
             var sendTestEmail = new brevo.SendSmtpEmail(); //
 
             sendTestEmail.templateId = templateId;
@@ -59,21 +46,19 @@ export class EmailService {
                 items: [{ verification_code: code, name: name.toUpperCase() }],
             };
 
-            apiInstance.sendTransacEmail(sendTestEmail).then(
-                function (data) {
-                    console.log(
-                        'API called successfully. Returned data: ' + code,
-                    );
-                    console.log(data);
-                },
-                function (error) {
-                    console.error(code, error);
-                },
-            );
+            const response = await apiInstance.sendTransacEmail(sendTestEmail);
+
+            if (id) {
+                await this.clientRepository.update(id, {
+                    verificationCode: await hash(code, 10),
+                });
+            }
         } catch (error) {
             throw new BadRequestException(error.message);
         }
 
         //{"items":[{"verification_code":"1351"}]}
     }
+
+    async;
 }

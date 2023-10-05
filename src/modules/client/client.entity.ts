@@ -14,6 +14,7 @@ import { RoleEntity } from '../role/role.entity';
 import { PetEntity } from '../pet/pet.entity';
 import { ScheduleEntity } from '../schedule/schedule.entity';
 import { AddressEntity } from '../address/address.entity';
+import { Gender } from 'src/enums/gender';
 
 @Entity('clients')
 export class ClientEntity implements Base {
@@ -51,6 +52,20 @@ export class ClientEntity implements Base {
         nullable: true,
     })
     phone: string;
+
+    @Column({
+        type: 'enum',
+        enum: Gender,
+        default: Gender.UNINFORMED,
+    })
+    gender: Gender;
+
+    @Column({
+        type: 'varchar',
+        length: 255,
+        nullable: true,
+    })
+    verificationCode?: string;
 
     @ManyToOne(() => RoleEntity, {
         nullable: false,
