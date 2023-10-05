@@ -74,7 +74,6 @@ export class PetParamsDTO {
 
     @ApiPropertyOptional({
         description: 'Date of birth of the pet',
-        example: '2020-01-01',
     })
     dateOfBirth: Date;
 }

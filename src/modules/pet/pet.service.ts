@@ -79,7 +79,10 @@ export class PetService {
             .orderBy('pet.name', order)
             .getManyAndCount();
 
-        return;
+        return {
+            items,
+            totalCount,
+        };
     }
 
     async findById(id: string): Promise<PetEntity> {
