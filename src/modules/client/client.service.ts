@@ -3,7 +3,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { ClientDTO, ClientParamDTO } from './client.dto';
 import { ClientEntity } from './client.entity';
-import { hash } from 'bcrypt';
+import { compare, hash } from 'bcrypt';
 import { RoleEntity } from '../role/role.entity';
 import { Sort } from 'src/utils/sort.type';
 import { AddressEntity } from '../address/address.entity';
@@ -152,18 +152,24 @@ export class ClientService {
         return await query.getOne();
     }
 
-    async updateSenha(
+    async updatePass(
         email: string,
         password: string,
         verificationCode: string,
     ) {
-        const emailExist = await this.clientRepository.findOne({
-            where: { email: email, verificationCode: verificationCode },
+        const clientExist = await this.clientRepository.findOne({
+            where: { email: email },
         });
 
-        if (emailExist)
-            await this.clientRepository.update(emailExist.id, {
-                password: password,
+        const comparedVericationCode = await compare(
+            verificationCode,
+            clientExist.verificationCode,
+        );
+        console.log(comparedVericationCode);
+
+        if (clientExist && comparedVericationCode)
+            await this.clientRepository.update(clientExist.id, {
+                password: await hash(password, 10),
             });
     }
 }

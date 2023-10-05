@@ -1,11 +1,18 @@
 import { Body, Controller, Get, Param, Post, Put, Query } from '@nestjs/common';
-import { ApiTags, ApiParam, ApiQuery, ApiBearerAuth } from '@nestjs/swagger';
+import {
+    ApiTags,
+    ApiParam,
+    ApiQuery,
+    ApiBearerAuth,
+    ApiBody,
+} from '@nestjs/swagger';
 import { ClientService } from './client.service';
 import { ClientDTO, ClientParamDTO } from './client.dto';
 import { ApiResponseInterface } from 'src/interfaces/ApiResponse';
 import { ClientEntity } from './client.entity';
 import { Sort } from 'src/utils/sort.type';
 import { Public } from 'src/decorators/public.decorators';
+import { UpdatePasswordDTO } from 'src/dto/UpdatePassword';
 
 @ApiTags('Client')
 @Controller('client')
@@ -51,6 +58,16 @@ export class ClientController {
             pageSize,
             order,
         };
+    }
+
+    @Post('update-password')
+    @Public()
+    async updatePassword(@Body() data: UpdatePasswordDTO) {
+        return await this.clientService.updatePass(
+            data.email,
+            data.password,
+            data.verificationCode,
+        );
     }
 
     // @ApiBearerAuth()
