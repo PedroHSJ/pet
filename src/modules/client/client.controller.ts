@@ -26,7 +26,7 @@ export class ClientController {
     }
     @Put(':id')
     @ApiBearerAuth()
-    @ApiParam({ name: 'id', type: String })
+    @ApiParam({ name: 'id', type: String, required: true })
     async update(
         @Param('id') id: string,
         @Body() client: ClientDTO,
@@ -63,36 +63,11 @@ export class ClientController {
     @Post('update-password')
     @Public()
     async updatePassword(@Body() data: UpdatePasswordDTO) {
-        return await this.clientService.updatePass(
+        await this.clientService.updatePass(
             data.email,
             data.password,
             data.verificationCode,
         );
+        return { message: 'Senha alterada com sucesso.' };
     }
-
-    // @ApiBearerAuth()
-    // @ApiQuery({ name: 'take', required: false })
-    // @ApiQuery({ name: 'skip', required: false })
-    // @ApiQuery({ name: 'sort', required: false })
-    // @Get('/params')
-    // async findByParams(
-    //     @Query('take') take: number = 10,
-    //     @Query('skip') skip: number = 1,
-    //     @Query('sort') sort: Sort = 'ASC',
-    //     @Query() params: ClientParamDTO,
-    // ) {
-    //     const client = await this.clientService.findByParams(
-    //         take,
-    //         skip,
-    //         sort,
-    //         params,
-    //     );
-    //     return {
-    //         items: client,
-    //         totalCount: client.length,
-    //         skip,
-    //         take,
-    //         sort,
-    //     };
-    // }
 }

@@ -24,6 +24,7 @@ import { EmailModule } from './modules/email/email.module';
 import { RoleEntity } from './modules/role/role.entity';
 import { ProfessionalEntity } from './modules/professional/professional.entity';
 import { UserEntity } from './modules/user/user.entity';
+import { ProcedureModule } from './modules/procedure/procedure.module';
 @Module({
     imports: [
         ConfigModule.forRoot({}),
@@ -50,6 +51,7 @@ import { UserEntity } from './modules/user/user.entity';
         RoleModule,
         AuthModule,
         EmailModule,
+        ProcedureModule,
     ],
     controllers: [AppController],
     providers: [

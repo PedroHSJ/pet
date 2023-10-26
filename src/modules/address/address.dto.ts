@@ -39,3 +39,36 @@ export class AddressDTO {
     })
     postalCode: string;
 }
+
+export class AddressParamsDTO {
+    @ApiPropertyOptional({
+        description: 'Street',
+    })
+    street: string;
+    @ApiPropertyOptional({
+        description: 'Number',
+    })
+    number: string;
+    @ApiPropertyOptional({
+        description: 'Complement',
+    })
+    complement?: string;
+    @ApiPropertyOptional({
+        description: 'Neighborhood',
+    })
+    neighborhood: string;
+    @ApiPropertyOptional({
+        description: 'City',
+    })
+    city: string;
+    @ApiPropertyOptional({
+        description: 'State',
+    })
+    state: string;
+    @ApiPropertyOptional({
+        description: 'Postal Code',
+        minLength: 8,
+        maxLength: 8,
+    })
+    postalCode: string;
+}

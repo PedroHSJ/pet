@@ -161,15 +161,19 @@ export class ClientService {
             where: { email: email },
         });
 
+        console.log(clientExist);
+        if (!clientExist) throw new BadRequestException('Client not found');
+
         const comparedVericationCode = await compare(
             verificationCode,
             clientExist.verificationCode,
         );
-        console.log(comparedVericationCode);
 
         if (clientExist && comparedVericationCode)
             await this.clientRepository.update(clientExist.id, {
                 password: await hash(password, 10),
             });
+        if (!comparedVericationCode)
+            throw new BadRequestException('Verification code is incorrect');
     }
 }

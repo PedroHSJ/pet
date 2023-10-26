@@ -99,8 +99,8 @@ export class ProfessionalController {
     }
 
     @Put(':id')
-    @Public()
-    @ApiParam({ name: 'id', required: true })
+    @ApiBearerAuth()
+    @ApiParam({ name: 'id', type: String, required: true })
     async update(
         @Param() param: { id: string },
         @Body() professional: ProfessionalDTO,
