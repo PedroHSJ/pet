@@ -25,6 +25,10 @@ import { RoleEntity } from './modules/role/role.entity';
 import { ProfessionalEntity } from './modules/professional/professional.entity';
 import { UserEntity } from './modules/user/user.entity';
 import { ProcedureModule } from './modules/procedure/procedure.module';
+import { PetClassModule } from './modules/pet-class/pet-class.module';
+import { PetClassEntity } from './modules/pet-class/pet-class.entity';
+import { SpecieModule } from './modules/specie/specie.module';
+import { SpecieEntity } from './modules/specie/specie.entity';
 @Module({
     imports: [
         ConfigModule.forRoot({}),
@@ -38,7 +42,13 @@ import { ProcedureModule } from './modules/procedure/procedure.module';
             entities: [__dirname + '/**/*.entity{.ts,.js}'],
             synchronize: true,
         }),
-        TypeOrmModule.forFeature([LogEntity, RoleEntity, UserEntity]),
+        TypeOrmModule.forFeature([
+            LogEntity,
+            RoleEntity,
+            UserEntity,
+            PetClassEntity,
+            SpecieEntity,
+        ]),
         UserModule,
         BreedModule,
         ClientModule,
@@ -52,6 +62,8 @@ import { ProcedureModule } from './modules/procedure/procedure.module';
         AuthModule,
         EmailModule,
         ProcedureModule,
+        PetClassModule,
+        SpecieModule,
     ],
     controllers: [AppController],
     providers: [

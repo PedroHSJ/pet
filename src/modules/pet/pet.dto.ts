@@ -29,10 +29,16 @@ export class PetDTO {
     clientId: string;
 
     @ApiProperty({
-        description: 'Specie of the pet',
-        enum: ['DOG', 'CAT'],
+        description: 'Specie id of the pet',
+        type: UUID,
     })
-    specie: Specie;
+    specieId: string;
+
+    // @ApiProperty({
+    //     description: 'Specie of the pet',
+    //     enum: ['DOG', 'CAT'],
+    // })
+    // specie: Specie;
 
     @ApiProperty({
         description: 'Gender of the pet',
@@ -60,11 +66,17 @@ export class PetParamsDTO {
     })
     weight: number;
 
+    // @ApiPropertyOptional({
+    //     description: 'Specie of the pet',
+    //     enum: ['DOG', 'CAT'],
+    // })
+    // specie: Specie;
+
     @ApiPropertyOptional({
-        description: 'Specie of the pet',
-        enum: ['DOG', 'CAT'],
+        description: 'Specie id of the pet',
+        type: UUID,
     })
-    specie: Specie;
+    specieId: string;
 
     @ApiPropertyOptional({
         description: 'Gender of the pet',

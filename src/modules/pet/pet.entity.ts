@@ -14,6 +14,8 @@ import { ClientEntity } from '../client/client.entity';
 import { Specie } from '../../enums/specie';
 import { Gender } from '../../enums/gender';
 import { ScheduleEntity } from '../schedule/schedule.entity';
+import { PetClassEntity } from '../pet-class/pet-class.entity';
+import { SpecieEntity } from '../specie/specie.entity';
 
 @Entity('pets')
 export class PetEntity implements Base {
@@ -49,12 +51,11 @@ export class PetEntity implements Base {
     @JoinColumn({ name: 'client_id' })
     client: ClientEntity;
 
-    @Column({
-        type: 'enum',
-        enum: Specie,
-        nullable: false,
+    @ManyToOne(() => SpecieEntity, {
+        nullable: true,
     })
-    specie: Specie;
+    @JoinColumn({ name: 'specie_id' })
+    specie: SpecieEntity;
 
     @Column({
         type: 'enum',

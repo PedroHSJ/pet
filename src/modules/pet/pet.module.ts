@@ -6,9 +6,17 @@ import { PetEntity } from './pet.entity';
 import { BreedEntity } from '../breed/breed.entity';
 import { PetMiddleware } from './pet.middleware';
 import { ClientEntity } from '../client/client.entity';
+import { SpecieEntity } from '../specie/specie.entity';
 
 @Module({
-    imports: [TypeOrmModule.forFeature([PetEntity, BreedEntity, ClientEntity])],
+    imports: [
+        TypeOrmModule.forFeature([
+            PetEntity,
+            BreedEntity,
+            ClientEntity,
+            SpecieEntity,
+        ]),
+    ],
     providers: [PetService],
     controllers: [PetController],
 })

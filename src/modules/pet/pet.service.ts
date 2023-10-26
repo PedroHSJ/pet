@@ -7,6 +7,7 @@ import { BreedEntity } from '../breed/breed.entity';
 import { ClientEntity } from '../client/client.entity';
 import { Sort } from 'src/utils/sort.type';
 import { ApiResponseInterface } from 'src/interfaces/ApiResponse';
+import { SpecieEntity } from '../specie/specie.entity';
 
 @Injectable()
 export class PetService {
@@ -17,9 +18,17 @@ export class PetService {
         private breedRepository: Repository<BreedEntity>,
         @InjectRepository(ClientEntity)
         private clientRepository: Repository<ClientEntity>,
+        @InjectRepository(SpecieEntity)
+        private specieRepository: Repository<SpecieEntity>,
     ) {}
 
     async create(pet: PetDTO): Promise<{ id: string }> {
+        const specieExist = await this.specieRepository.findOne({
+            where: { id: pet.specieId },
+        });
+
+        if (!specieExist) throw new BadRequestException('Specie not found');
+
         const breedEntity = await this.breedRepository.findOne({
             where: { name: pet.breed.name },
         });
@@ -32,6 +41,7 @@ export class PetService {
         const petEntity = this.petRepository.create(pet);
         petEntity.breed = breedEntity;
         petEntity.client = clientExist;
+        petEntity.specie = specieExist;
         petEntity.name = pet.name.toUpperCase();
         const newPet = await this.petRepository.save(petEntity);
         return { id: newPet.id };
@@ -58,10 +68,10 @@ export class PetService {
                 weight: pet.weight,
             });
 
-        if (pet.specie)
-            query.andWhere('pet.specie = :specie', {
-                specie: pet.specie,
-            });
+        // if (pet.specie)
+        //     query.andWhere('pet.specie = :specie', {
+        //         specie: pet.specie,
+        //     });
 
         if (pet.gender)
             query.andWhere('pet.gender = :gender', {
