@@ -5,6 +5,7 @@ import { PetDTO, PetParamsDTO } from './pet.dto';
 import { ApiResponseInterface } from 'src/interfaces/ApiResponse';
 import { PetEntity } from './pet.entity';
 import { Sort } from 'src/utils/sort.type';
+import { Public } from 'src/decorators/public.decorators';
 
 @ApiTags('Pet')
 @Controller('pet')
@@ -12,7 +13,7 @@ export class PetController {
     constructor(private readonly petService: PetService) {}
 
     @Post()
-    @ApiBearerAuth()
+    @Public()
     async create(@Body() pet: PetDTO): Promise<{ id: string }> {
         return await this.petService.create(pet);
     }

@@ -30,7 +30,7 @@ export class PetService {
         if (!specieExist) throw new BadRequestException('Specie not found');
 
         const breedEntity = await this.breedRepository.findOne({
-            where: { name: pet.breed.name },
+            where: { id: pet.breedId },
         });
         if (!breedEntity) throw new BadRequestException('Breed not found');
         const clientExist = await this.clientRepository.findOne({

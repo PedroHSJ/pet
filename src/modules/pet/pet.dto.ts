@@ -16,11 +16,17 @@ export class PetDTO {
         minimum: 0,
     })
     weight: number;
+    // @ApiProperty({
+    //     description: 'Breed of the pet',
+    //     type: BreedDTO,
+    // })
+    // breed: BreedDTO;
+
     @ApiProperty({
-        description: 'Breed of the pet',
-        type: BreedDTO,
+        description: 'Breed id of the pet',
+        type: UUID,
     })
-    breed: BreedDTO;
+    breedId: string;
 
     @ApiProperty({
         description: 'Client id of the pet',
