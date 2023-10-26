@@ -16,7 +16,6 @@ export class ProfessionalMiddleware implements NestMiddleware {
                 next();
             }
             if (req.method === 'PUT') {
-                console.log(req.body);
                 await ProfessinalPutSchema.validate(req.body, {
                     abortEarly: false,
                 });

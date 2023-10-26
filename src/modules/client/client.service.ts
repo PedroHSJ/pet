@@ -161,7 +161,6 @@ export class ClientService {
             where: { email: email },
         });
 
-        console.log(clientExist);
         if (!clientExist) throw new BadRequestException('Client not found');
 
         const comparedVericationCode = await compare(
